@@ -1,0 +1,23 @@
+INSTALLDIR = "$(HOME)/Apps";
+GENERATEMAIN = YES;
+FILESTABLE = {
+    OTHER_LIBS = (Media_s, NeXT_s);
+    CLASSES = (PrintApplication.m);
+    OTHER_SOURCES = (Makefile);
+    INTERFACES = (Print.nib);
+    H_FILES = (PrintApplication.h);
+    OTHER_LINKED = ();
+    M_FILES = (Print_main.m);
+};
+DOCICONFILES = ();
+APPCLASS = PrintApplication;
+MAINNIB = Print;
+DOCEXTENSIONS = ();
+PROJECTTYPE = Application;
+PROJECTVERSION = 1.1;
+LOCALIZABLE_FILES = {
+    Print.nib;
+};
+PROJECTNAME = Print;
+SYSTEMEXTENSIONS = ();
+LANGUAGE = English;

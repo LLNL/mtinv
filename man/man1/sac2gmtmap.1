@@ -1,0 +1,47 @@
+.TH sac2gmtmap 1 "27 April 2023" "MTINV Version 4.0.1" "MTINV Toolkit"
+
+.SH NAME 
+sac2gmtmap \- generates and executes a C-shell script of GMT commands to make a map of seismic station and epicenter locations 
+
+.SH SYNOPSIS
+sac2gmtmap -gmt5 -verbose -xybuffer_in_degrees %f -include-epicenter -include-sta-label -rdseed.station [sac files]
+.br
+ 
+.SH DESCRIPTION
+generates and executes a C-shell script of GMT commands to make a map of seismic station and epicenter locations
+
+.SH REQUIRED PARAMETERS
+.TP
+.B [sac files] 
+a list of SAC files, only need one channel per station, accepts wildcards (e.g.,) *.??Z.SAC and/or *.??Z.?.SAC
+
+.SH OPTIONAL PARAMETERS
+
+.TP
+.B -gmt5
+Force GMT version 5+ otherwise uses GMT version 4.
+
+.TP
+.B -verbose
+Verbosy output for debugging is \fIverbose\fP and for no verbosy output is \fInoverbose\fP [default off].
+
+.TP
+.B -xybuffer_in_degrees
+pad edges of map by x-degrees margin
+
+.TP
+.B -include-epicenter
+Include epicenter on plot (default off)
+
+.TP 
+.B -include-sta-label 
+Include station labels on plot (default off)
+
+.TP
+.B -rdseed.station
+Create a rdseed.stations file (default off) needed by mkgrnlib
+
+.SH "SEE ALSO"
+.IR setupMT (1),
+.IR makepar (1),
+.IR mkgrnlib (1)

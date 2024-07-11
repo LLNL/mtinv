@@ -1,0 +1,129 @@
+Cgraph: PostScript plotting library in C [version 2.04, 1998-08-29]
+
+For the current version, see the original source:
+http://totoro.berkeley.edu/software/A_Cgraph.html
+
+ftp://pinoko.berkeley.edu/pub/software/Cgraph2.04.tar.gz
+(version number 2.04 may change)
+
+Izumi Ohzawa, Ph.D.
+izumi@pinoko.berkeley.edu
+-------------------------------------------------------------------
+
+This is a C source code library that contains a set of C functions
+that generate PostScript for publication quality scientific plots.
+If you have a PostScript previewer, it is possible to launch the
+viewer automatically on generated PS/EPS files.  The Cgraph Library
+source code, examples, and documentation are in the public domain.
+Utilities included in the utils* directories are not ours, and under
+the distribution terms specified therein.
+
+Why do we want something like this, when Mac and Windows apps can
+finally produce nice plots? Those GUI apps are OK for small number
+of plots, but if you ever need to plot tens or hundreds of similarly
+formatted graphs fast, GUIs become very tedius. Also, if you need
+to generate plots automatically, e.g., those stock price charts
+updated every tens of minutes available from some Web sites, a
+program that incorporates this library may be used to generate EPS
+files from current data, which can be piped into Ghostscript (or
+DPS) to update GIF images without manual intervention.
+
+Requires ANSI C compiler. Full source code, documentaiton, and a
+few usage examples are included. Tested using NEXTSTEP and its
+Preview.app. It should easily be portable to other platforms and
+for use with Ghostscript (modify bgshow.c) 
+
+## Features:
+
+Axes (log, linear), xy domain definitions where you can plot things
+using original data values.  Symbols for plotting points, domain mesh,
+etc.
+
+You can produce a PS/EPS file that contains BOTH color and B/W specifications,
+one of which is selected by a single 'def' near the beginning of the PS output.
+It is even possible to let the device capability dictate the choice: use of color
+for color devices and clean B/W drawing for monochrome devices.
+This is different from the photometric conversion of color to B/W
+that PS supports.  Our scheme allows creation of a graph which
+renders, e.g, a yellow curve on a blue backgrond on a color device,
+and black curve on white back ground.
+
+There is also reasonable documentation (as a WordPerfect file and
+a PS file), and a few examples to get you started.  The Web page above
+presents some of the examples (code and image rendered from output).
+
+The PS generation part should be very portable.  A little platform
+dependency comes in for launching a PS previewer, which for us
+is a NeXT's Preview app.  There should not be any problem launching
+Ghostscript for viewing with small modifications (modify bgshow.c).
+
+
+## Installation and Use
+
+[1]  Compile and build the library file:
+	cd source
+	[examine and edit Makefile to suite your compiler]
+	make		(or make -f Makefile.unix)
+
+[2]  Copy files to appropriate locations:
+	make install
+   OR
+ 	cp cgraph.h /usr/local/include
+	cp libcgraph.a /usr/local/lib
+	ranlib -s /usr/local/lib/libcgraph.a
+
+[3] Build and run the examples.
+	cd examples
+	make
+   OR
+	cd to each example directory and adjust Makefile.
+	make, and run the executable in each directory.
+
+[4]  For your own project, simply link in the library according to your
+     C compiler requirements, e.g.,
+	cc -O -Wall -o CGminimal CGminimal.c -lcgraph
+
+[5]  Run it.
+
+
+## Historical Notes
+
+This library project started about 10 years ago (1986) when Apple
+LaserWriter was practically the only PS printer around, and there
+was no sign of Ghostscript or Display PostScript.  The library used
+to contain messy screen preview code for DOS PC's, which was later
+ripped out for NeXT DPS and Preview.app.  However, some remnants
+of that code are still in some places, esp.  cglobals.h and a few
+C modules.  We haven't bothered to clean it up as it seems pretty
+stable for our internal use.  While we write and use NEXTSTEP/OPENSTEP
+apps, Cgraph is still handy for many plotting jobs.
+
+
+
+## Other Possibilities for C libraries for PostScript:
+
+"GMT System" (http://www.soest.hawaii.edu/soest/gmt.html)
+also contains an extensive set of C functions for generating PS output.
+However, those functions are not intended to be linked into your own
+C code outside of GMT commands.  It is doable, but will need some
+work.
+
+You should stay away from modules used in gnuplot, as the thing was
+designed for general graphical output devices, and thus suffers
+from too much baggage and least-common-denominator design.
+
+
+-------------------------------------------------------------------
+## Revision History
+
+# 2.04:	 1998-08-29
+  Minor bug fixes.  Eliminated all compiler warnings.
+
+# 2.02:  1997-03-04
+  Three new functions below, mostly for convenience of batch type processing,
+  have been added.  For example, it is now a snap to create and print
+  PS files in a loop without having a previewer open each file.
+    void cg_launch_preview(int flag);
+    char *cg_get_output_filename(void);
+    void cg_set_output_filename(char *file);
+

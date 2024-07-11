@@ -1,0 +1,38 @@
+
+% make
+cc -Wall -O -c -g -arch i386 -arch m68k bgdash.c
+cc -Wall -O -c -g -arch i386 -arch m68k bginit.c
+cc -Wall -O -c -g -arch i386 -arch m68k bgshow.c
+cc -Wall -O -c -g -arch i386 -arch m68k bgstart.c       
+cc -Wall -O -c -g -arch i386 -arch m68k glcmp.c
+cc -Wall -O -c -g -arch i386 -arch m68k gxaxs.c
+cc -Wall -O -c -g -arch i386 -arch m68k gxlog.c
+cc -Wall -O -c -g -arch i386 -arch m68k gyaxs.c
+cc -Wall -O -c -g -arch i386 -arch m68k gylog.c
+cc -Wall -O -c -g -arch i386 -arch m68k gfont.c
+cc -Wall -O -c -g -arch i386 -arch m68k gcord.c
+cc -Wall -O -c -g -arch i386 -arch m68k gmlin.c
+cc -Wall -O -c -g -arch i386 -arch m68k gorig.c 
+cc -Wall -O -c -g -arch i386 -arch m68k gprim.c
+cc -Wall -O -c -g -arch i386 -arch m68k grmle.c
+cc -Wall -O -c -g -arch i386 -arch m68k grset.c
+cc -Wall -O -c -g -arch i386 -arch m68k gmark.c
+cc -Wall -O -c -g -arch i386 -arch m68k ggraycolor.c
+cc -Wall -O -c -g -arch i386 -arch m68k gstrk.c
+cc -Wall -O -c -g -arch i386 -arch m68k gaxlabel.c
+cc -Wall -O -c -g -arch i386 -arch m68k gbott.c
+cc -Wall -O -c -g -arch i386 -arch m68k cgsave.c
+cc -Wall -O -c -g -arch i386 -arch m68k cgprint.c
+cc -Wall -O -c -g -arch i386 -arch m68k gtext.c
+cc -Wall -O -c -g -arch i386 -arch m68k gtrnc.c
+cc -Wall -O -c -g -arch i386 -arch m68k gmesh.c
+cc -Wall -O -c -g -arch i386 -arch m68k gstyl.c
+cc -Wall -O -c -g -arch i386 -arch m68k gwdth.c
+cc -Wall -O -c -g -arch i386 -arch m68k cg_newfuncs.c
+rm -f libcgraph.a
+ar r libcgraph.a bgdash.o bginit.o bgshow.o bgstart.o glcmp.o gxaxs.o gxlog.o gyaxs.o gylog.o gfont.o gcord.o gmlin.o gorig.o gprim.o grmle.o grset.o gmark.o ggraycolor.o gstrk.o gaxlabel.o gbott.o cgsave.o cgprint.o gtext.o gtrnc.o gmesh.o gstyl.o gwdth.o cg_newfuncs.o
+ar: creating libcgraph.a
+ranlib -s libcgraph.a
+All done, now do a make install
+
+%

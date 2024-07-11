@@ -1,0 +1,124 @@
+# Makefile for FAT cgraph.lib
+
+BINDIR=/local/Cgraph-2.0
+
+CCFLAGS =  -Wall -O -c -g -arch m68k -arch i386
+CC=gcc
+CCFLAGS =  -c -O -fpic -I/usr/include/X11R5
+
+OBJS = bgdash.o bginit.o bgshow.o bgstart.o\
+	glcmp.o gxaxs.o gxlog.o gyaxs.o gylog.o\
+	gfont.o gcord.o gmlin.o gorig.o gprim.o\
+	grmle.o grset.o gmark.o ggraycolor.o gstrk.o\
+	gaxlabel.o gbott.o cgsave.o cgprint.o\
+	gtext.o gtrnc.o gmesh.o gstyl.o gwdth.o\
+	cg_newfuncs.o
+
+all: libcgraph.sl
+	@echo All done, now do a make install
+
+install:
+	mkdir -p $(BINDIR)/lib
+	mkdir -p $(BINDIR)/include
+	cp libcgraph.sl $(BINDIR)/lib
+	cp cgraph.h $(BINDIR)/include
+
+libcgraph.a:  $(OBJS) Makefile
+	rm -f libcgraph.a
+	ar r libcgraph.a $(OBJS)
+	ranlib -s libcgraph.a
+
+libcgraph.sl:  $(OBJS) Makefile
+	ld -b -o libcgraph.sl $(OBJS)
+
+
+cg_newfuncs.o:  cglobals.h cgaxes.h cgfont.h
+	$(CC) $(CCFLAGS) cg_newfuncs.c
+
+cgprint.o:  cgprint.c cglobals.h
+	$(CC) $(CCFLAGS) cgprint.c
+	
+cgsave.o:  cgsave.c cglobals.h
+	$(CC) $(CCFLAGS) cgsave.c
+
+gaxlabel.o:  gaxlabel.c cglobals.h cgaxes.h  
+	$(CC) $(CCFLAGS) gaxlabel.c
+	
+gbott.o:  gbott.c    cglobals.h
+	$(CC) $(CCFLAGS) gbott.c
+	
+bginit.o:  bginit.c cglobals.h cgaxes.h cgfont.h version.h cgraph.h
+	$(CC) $(CCFLAGS) bginit.c
+	
+bgstart.o:  bgstart.c cglobals.h cgaxes.h cgfont.h version.h
+	$(CC) $(CCFLAGS) bgstart.c	
+	
+gmark.o:   gmark.c cglobals.h  
+	$(CC) $(CCFLAGS) gmark.c
+	
+glcmp.o:   glcmp.c cglobals.h 
+	$(CC) $(CCFLAGS) glcmp.c
+	
+gxaxs.o:   gxaxs.c cglobals.h cgaxes.h cgfont.h  
+	$(CC) $(CCFLAGS) gxaxs.c
+	
+gxlog.o:   gxlog.c cglobals.h cgaxes.h cgfont.h  
+	$(CC) $(CCFLAGS) gxlog.c
+	
+gyaxs.o:   gyaxs.c cgaxes.h cgfont.h   cglobals.h
+	$(CC) $(CCFLAGS) gyaxs.c
+	
+gylog.o:   gylog.c cglobals.h cgaxes.h  cgfont.h  
+	$(CC) $(CCFLAGS) gylog.c
+	
+gtext.o:  gtext.c cglobals.h  
+	$(CC) $(CCFLAGS) gtext.c
+	
+gtrnc.o:  gtrnc.c  cglobals.h
+	$(CC) $(CCFLAGS) gtrnc.c
+	
+gmesh.o:  gmesh.c cglobals.h cgaxes.h  
+	$(CC) $(CCFLAGS) gmesh.c
+	
+gstyl.o:  gstyl.c cgaxes.h cglobals.h
+	$(CC) $(CCFLAGS) gstyl.c
+	
+gwdth.o:  gwdth.c  cglobals.h
+	$(CC) $(CCFLAGS) gwdth.c
+	
+gfont.o:  gfont.c cglobals.h cgfont.h PS_font_names.h
+	$(CC) $(CCFLAGS) gfont.c
+	
+grmle.o:  grmle.c cglobals.h  
+	$(CC) $(CCFLAGS) grmle.c
+	
+gmlin.o:  gmlin.c cglobals.h  
+	$(CC) $(CCFLAGS) gmlin.c
+	
+gcord.o:  gcord.c cglobals.h
+	$(CC) $(CCFLAGS) gcord.c
+	
+gorig.o:  gorig.c cglobals.h
+	$(CC) $(CCFLAGS) gorig.c 
+	
+	
+bgdash.o:  bgdash.c cglobals.h
+	$(CC) $(CCFLAGS) bgdash.c
+	
+gprim.o:  gprim.c cglobals.h  
+	$(CC) $(CCFLAGS) gprim.c
+	
+grset.o:  grset.c cglobals.h
+	$(CC) $(CCFLAGS) grset.c
+	
+ggraycolor.o:  ggraycolor.c cglobals.h
+	$(CC) $(CCFLAGS) ggraycolor.c
+	
+gstrk.o:  gstrk.c cglobals.h
+	$(CC) $(CCFLAGS) gstrk.c
+	
+bgshow.o:  bgshow.c cglobals.h
+	$(CC) $(CCFLAGS) bgshow.c
+
+clean:
+	rm -f *.o *.a *.sl

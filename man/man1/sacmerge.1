@@ -1,0 +1,23 @@
+.TH sacmerge 1 "27 April 2023" "MTINV Version 4.0.1" "MTINV Toolkit"
+
+.SH NAME
+sacmerge \- merges two or more SAC file segments into a single SAC file.
+
+.SH SYNOPSIS
+sacmerge [SAC file name(s)] 
+
+.SH DESCRIPTION
+Merges two or more Seismic Analysis Code (SAC)
+binary formatted files into a single SAC file.  Typically real-time seismic data are split into packets/segments and sent 
+through the Internet.  Packets may get lost or arrive too late for posting causing drop outs.  If you run unpack.csh 
+on data ordered from IRIS and data are segmented into 2 or more files then use this program to merge the files into a 
+single file for processing in SACDATA2INV(1). Gaps are filled with zeros.
+
+.SH REQUIRED PARAMETERS
+.TP
+.B  [SAC files(s)] 
+a list of SAC file names
+
+.SH "SEE ALSO"
+.IR sacdata2inv (1),
+.IR unpack.csh (1)

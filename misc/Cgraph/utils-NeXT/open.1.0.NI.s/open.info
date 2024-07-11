@@ -1,0 +1,8 @@
+Title			open
+Version			1.0 May 9, 1994
+DefaultLocation		~/Unix
+DiskName		Disk Number %d
+DeleteWarning		This will delete the entire package.
+Relocatable		YES
+Application		NO
+Description		replacement for NeXT's (since 3.1 broken) /usr/bin/open with some added features. This project has absolutely no relation to NeXT!

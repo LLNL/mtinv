@@ -1,0 +1,96 @@
+.TH pltmod 1 "27 April 2023" "MTINV Version 4.0.1" "MTINV Toolkit"
+
+.SH NAME 
+pltmod \- reads mod file and creates input for Generic Mapping Tools (GMT) psxy
+
+.SH SYNOPSIS
+pltmod modeldb=(string) velmod=(string) [no]init [no]gmt  pline=(string) sline=(string)
+.br
+ 
+.SH DESCRIPTION
+reads mod file and creates input for Generic Mapping Tools (GMT) psxy
+
+.SH REQUIRED PARAMETERS
+
+.TP
+.B modeldb=(string) 
+path directory to *.mod files
+
+.TP
+.B velmod=(string) 
+basename of *.mod file
+
+.SH OPTIONAL PARAMETERS
+
+.TP
+.B [no]init 
+reinitialize the S-vel & Den to a Poissonian Solid based on P-vel (default off)
+
+.TP
+.B [no]gmt
+sends output as GMT psxy output (default off, screen output)
+
+.TP
+.B pline=(string)
+P-wave GMT psxy -W specs 
+
+.TP
+.B sline=(string)
+S-wave GMT psxy -W specs 
+
+.SH EXAMPLE C-SHELL SCRIPT
+.br
+#!/bin/csh
+.sp
+set  PS=plot_and_compare_models.ps
+.br
+set JPG=plot_and_compare_models.jpg
+.sp
+gmt psbasemap -R0/10/-100/0 -JX5i/5i \\
+.br
+   -Bxf0.2a1+l"P and S-Velocities (km/sec)" \\
+.br
+   -Byf2a10+l"Depth (km)" -BNSeW+t"1D Earth Models" -P -K >! ${PS}
+.sp
+pltmod modeldb=. velmod=iasp gmt pline="-W2p,black"        sline="-W2p,black"        | \\
+.br
+	gmt psxy -R -JX -K -O >> ${PS}
+.br
+pltmod modeldb=. velmod=wus  gmt pline="-W1.2p,red,5_2:0p" sline="-W1.2p,red,5_2:0p" | \\
+.br
+	gmt psxy -R -JX -K -O >> ${PS}
+.br
+pltmod modeldb=. velmod=cus  gmt pline="-W1.0p,blue"       sline="-W1.0p,blue"       | \\
+.br
+	gmt psxy -R -JX -K -O >> ${PS}
+.sp
+
+gmt pslegend -R -JX -F+p1p+gtan -D1/-90/3i/BL -O >> ${PS} << EOF
+.br
+G -0.15
+.br
+H 18 Times-Roman 1-D Earth Models
+.br
+G 0.05i
+.br
+D 0.0i 1p,black
+.br
+N 3
+.br
+V 0 1p
+.br
+S 0.2i r 0.8c,0.15c red   0.5p 0.45i wus
+.br
+S 0.2i r 0.8c,0.15c blue  0.5p 0.45i cus
+.br
+S 0.2i r 0.8c,0.15c black 0.5p 0.45i iasp
+.br
+EOF
+.sp
+gmt psconvert -Tj -E300 -V ${PS}
+
+
+.SH "SEE ALSO"
+.IR mkgrnlib (1),
+.IR glib2sac (1),
+.IR mtinv (1)

@@ -1,0 +1,70 @@
+.TH mtbestfit 1 "27 April 2023" "MTINV Version 4.0.1" "MTINV Toolkit"
+
+.SH NAME 
+mtbestfit \- helper function autogenerates run2.csh script to produce finalized moment tensor solution in the MTINV workflow. Also autogenerates a mteig.csh script to produce Network Sensitivity Solution (NSS) projected on lune. 
+
+.SH SYNOPSIS
+mtbestfit [no]force_best_vred evid={long} [no]gmt5 [no]pretty_plot [no]db [no]mteig decimate_factor={float} [no]use_ts0 [no]help
+.br
+ 
+.SH DESCRIPTION
+reads a file named automt.txt and autogenerates scripts to make plots for real-time version
+See mtbestfit.c fit_max_threshold = 20 vred_diff_threshold = 30 
+
+.sp
+The script run.csh cleans out automt.txt after every run.  At each iteration, mtinv appends new entry to automt.txt.  mtbestfit reads automt.txt and creates a custom file run2.csh. The helper application also autogenerates a template web page file index.html using fixed output file names. 
+
+.sp
+for mtdegfree = 1 and mtdegfree = 6, the metric used in variance reduction (VR)
+.br
+for mtdegfree = 5, the metric used is VR / (100 - %DC)
+.br 
+the metric types and actual values are printed at the top of the run2.csh script comments
+
+.SH REQUIRED PARAMETERS
+
+.TP
+.B none
+
+.SH OPTIONAL PARAMETERS
+
+.TP
+.B [no]force_best_vred
+(boolean) the use of max variance reduction instead of VR/(100-%DC). 
+
+.TP
+.B evid={long}
+carry along the EventID (default -1 off)
+
+.TP
+.B [no]gmt5  
+(boolean) use gmt5+ instead of default gmt4
+
+.TP
+.B [no]db
+(boolean) load the database insert.sql script default on
+
+.TP
+.B [no]mteig 
+(boolean) creates mteig.csh script to do NSS lune plots default off (note only valid when mtdegfree=6) default off
+
+.TP
+.B decimate_factor={float} 
+decimation factor, only allows 1,2,4,8 default 2 so if nt=1024 then nt=512 (default 1) 
+
+.TP
+.B [no]use_ts0
+in mteig mode, use station time-shifts, default true, otherwise reset to zero (default on)
+
+.TP
+.B [no]help
+(boolean) prints usage default off. Since program runs normally with no args need help to force usage print.
+
+.SH EXAMPLE
+.br
+mtbestfit gmt5 evid=-1 db pretty_plot noforce_best_vred mteig decimate_factor=2
+
+.SH "SEE ALSO"
+.IR mkgrnlib (1),
+.IR glib2sac (1),
+.IR mtinv (1)

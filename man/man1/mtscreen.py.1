@@ -1,0 +1,34 @@
+.TH mtscreen.py 1 "27 April 2023" "MTINV Version 4.0.1" "MTINV Toolkit"
+
+.SH NAME 
+mtscreen.py \- computes the probability of explosion based on spherical statistics on the hypersphere Ford et al. 2020. based on the Fisher von Misses distribution
+
+.SH SYNOPSIS
+mtscreen.py [-h] [-mxx MXX] [-mxy MXY] [-mxz MXZ] [-myy MYY] [-myz MYZ] [-mzz MZZ]
+.br
+ 
+.SH DESCRIPTION
+Calculate the screening statistic for a given seismic moment tensor. The
+moment tensor elements can be absolute or normalized and in any accepted
+unit (e.g., N-m, dyne-cm, Ak).
+
+Seismic moment tensor event screening, by Sean R Ford, Gordon D Kraft, Gene A Ichinose, Geophysical Journal International, Volume 221, Issue 1, April 2020, Pages 77–88, https://doi.org/10.1093/gji/ggz578 Published: 06 January 2020
+
+Event screening is an explosion monitoring practice that aims to identify an event as an explosion (‘screened in’) or not (‘screened out’). Confidence in event screening can be increased if multiple independent approaches are used. We describe a new approach to event screening using the seismic moment tensor and its representation on the hypersphere, specifically the 5-sphere of 6-degree unit vectors representing the normalized symmetric moment tensor. The sample of moment tensors from an explosion data set is unimodal on the 5-sphere and can be parametrized by the Langevin distribution, which is sometimes referred to as the Normal distribution on the hypersphere. Screening is then accomplished by finding the angle from the explosion population mean to any newly measured moment tensor and testing if that angle is in the tail of the Langevin distribution (conservatively quantified as greater than 99.9 per cent of the cumulative density). We apply the screen to a sample of earthquakes from the Western USA and the September 2017 explosion and subsequent collapse at the Pungyye-Ri Test Site in North Korea. All the earthquakes and the collapse screen out, but the explosion does not.
+
+.br
+Prints: output: angle and screening suggestion (in = explosion; out = not explosion)
+
+.SH REQUIRED PARAMETERS
+
+arguments:
+  -h        Show this help message and exit
+  -mxx MXX  Force couple in x direction along x axis (default: 6.5)
+  -mxy MXY  Force couple in x direction along y axis (default: -1.0)
+  -mxz MXZ  Force couple in x direction along z axis (default: 0.2)
+  -myy MYY  Force couple in y direction along y axis (default: 6.6)
+  -myz MYZ  Force couple in y direction along z axis (default: 0.5)
+  -mzz MZZ  Force couple in z direction along z axis (default: 7.0)
+
+.SH "SEE ALSO"
+.IR mtinv (1)

@@ -1,0 +1,18 @@
+DOCEXTENSIONS = ();
+LOCALIZABLE_FILES = {
+};
+
+PROJECTVERSION = 1.1;
+INSTALLDIR = /usr/local/bin;
+PROJECTTYPE = Tool;
+PROJECTNAME = open;
+GENERATEMAIN = YES;
+DOCICONFILES = ();
+FILESTABLE = {
+    OTHER_SOURCES = (Makefile.preamble, Makefile, Makefile.postamble, open.1, open.info, appopen.1);
+    M_FILES = ();
+    OTHER_LIBS = (NeXT_s);
+    H_FILES = (open.h);
+    OTHER_LINKED = ();
+    CLASSES = (open.m);
+};

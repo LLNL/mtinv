@@ -1,0 +1,209 @@
+.TH glib2inv 1 "27 April 2023" "MTINV Version 4.0.1" "MTINV Toolkit"
+
+.SH NAME 
+glib2inv \- Processes Green's function library for mtinv
+
+.SH SYNOPSIS
+glib2inv par=mtinv.par [no]verbose [no]dumpsac [no]dumpgrn [no]parallel [no]test_special
+.br
+ 
+.SH DESCRIPTION
+Reads the Green's function library files *.glib (as a function of depth) for a single source-to-receiver station pair
+and processes the Green's functions for moment tensor inversion. Writes out *.ginv files for mtinv. 
+The stations are specified in mtinv.par (see below for format). 
+
+.nr step 1 1
+Processing steps: 
+.IP \n[step] 3
+remove the amplitude of first sample (avoids truncated step function artificat)
+.IP \n+[step]
+differentiate from displacement to velocity (if needed)
+.IP \n+[step]
+convolve source-time function (triangle or trapezoid; default is do nothing--delta function)
+.IP \n+[step]
+bandpass filter 
+.IP \n+[step]
+interpolate using fft to new sampling rate
+.IP \n+[step]
+does not taper Gfs, only taper data since synthetics are not windowed
+
+.SH New Features:
+(1) Rotational Green's functions
+(2) Mij formated Green's functions
+
+.SH REQUIRED PARAMETERS
+
+.TP
+.B par={string}
+The file name of the parameter file.  See format of this file below (PARAMETER FILE FORMAT).
+
+.SH OPTIONAL PARAMETERS
+
+.TP
+.B [no]verbose 
+Verbosy output for debugging is \fIverbose\fP and for no verbosy output is \fInoverbose\fP [default off].
+
+.TP
+.B [no]dumpgrn
+Write out "Dump" the Green's functions as SAC formatted binary files [default off].
+
+.TP
+.B [no]dumpsac
+Write out "Dump" the Green's functions as SAC formatted binary files [default off].  The focal mechanism,
+depth, and moment is applied from the input parameter file EV line (see format below).
+
+.TP
+.B [no]parallel
+The parallel option performs processing of each station in separate thread simultaneously (up to 50) otherwise serial operation processes each station at a time (default off).
+
+.TP
+.B [no]test_special
+Read in Greens functions from SAC files in Mij(r,t,z) format from 17 files based on specific format (see grn2Mxy) [default off]. 
+This test_special option requires serial option (noparallel) automatically unset.
+Also mtinv special argument is required (see mtinv).  
+
+
+.SH PARAMETER FILE FORMAT (usually named mtinv.par)
+
+.TP
+.B # 
+A '#' in the first column signifies that the following is a non printing comment. Also used to remove station from mtinv. Use (y or n) column 15 to predict instead of removing a station.  
+
+.TP
+.B CM 
+A 'CM ' in columns 1-3 marks the beginning of a comment, typically the region, area, city and country name 
+for reference purposes only.
+
+.TP
+.B OT
+A 'OT ' in columns 1-3 is followed by the earthquake origin time string in year/month/day,hour:minute:seconds format, (e.g.,
+2005/06/12,15:41:46.000 or 2005-06-12T15:41:46.000).  Origin time is required for setting the origin time in the 
+synthetics and shifting the observed seismograms in time to improve the fit the synthetics and percent double couple component.
+
+.TP
+.B  EV
+A 'EV ' in columns 1-3 is followed by six free formatted floating point values:  strike, dip, rake, Mw, event_longitude, event_latitude, and event_depth.  Only event_longitude and event_latitude need to be set for the correct calculation of the source and receiver azimuth and distance.  Should be the same as the \fIevla=\fP and \fIevlo=\fP values used to calculate the Green's function library using "mkgrnlib".  Other values can be set to zero and are only used to forward calculate synthetic ground displacements when the dump option is set (dumpsac).
+
+.TP
+.B MT (OPTIONAL - EXPERIMENTAL)
+A 'MT' in columns 1-3 is followed by seven free formatted floating point values: Mxx, Mxy, Mxz, Myy, Myz, Mzz, Mo. 
+The normalized moment tensor elements and seismic moment in dyne*cm.
+
+.TP
+All other lines are for station and synthetic data processing parameters.  There are 18 columns in the following order:
+.sp
+.B sta, net, loc, model, np, pas, lf, hf, nt, dt, tr, tt, grdmo, mulfac, used, ts, weight, wavetype, comments
+
+.B sta
+station code (see stadb file).
+
+.B net
+network code (see stadb file).
+
+.B loc 
+location code (empty quotes for null "" otherwise 00, 10, 01, 02, 60, etc...)
+
+.B model
+velocity model name (without .mod extension)
+
+.B np
+number of poles (0,1,2,3,4) for Butterworth bandpass filter
+
+.B pas
+number of passes (1 or 2) for Butterworth bandpass filter
+
+.B lf
+low frequency corner in Hz for Butterworth bandpass filter
+
+.B hf
+high frequency corner in Hz for Butterworth bandpass filter
+
+.B nt
+number of points (in power of 2)
+
+.B dt
+sampling rate in sec/sample 
+
+.B tr
+rise time or duration of ramp in trapezoid function in seconds
+
+.B tt
+duration of boxcar portion of trapezoid function in seconds (tt=0 then triangle function of duration 2*tr)
+
+.B grdmo(v or d)
+Ground motion type is either 'd' for displacement or 'v' for velocity (no default)
+
+.B mulfac
+Multiplcation factor applied to all components for this station. Useful for applying gain corrections easily.
+Default is 1.  
+
+.B used (y or n)
+Use this station for inversion 'y' or just make a preduction 'n'
+
+.B ts
+Time shift in sec for all components in seconds.  Negative is backward time shift in time and positive shifts are forward shift in time.
+Default is 0;
+
+.B weight
+Weight factor applied in A matrix in MT inversion
+
+.B wavetype 
+Green's function: Surf/Pnl or Rotational
+
+.B comments
+Free format comments are allowed after column 18. In autogenerated file src-rec distance and azimuth are listed for reference.
+
+.SH EXAMPLE PARAMETER FILE (mtinv.par) 
+.br
+#### REGION COMMENT ############################
+.br
+CM New Madrid, MO
+.br
+#### Date and Origin Time ######################
+.br
+OT 2021-11-18T02:53:04.00
+.br
+#### Forward Calculations ######################
+.br
+##    stk    dip    rak   Mw  evlo  evla   Z ##########
+.br
+EV -999.0 -999.0 -999.0  0.0    -90.543    36.9077  15.0
+.br
+###############################################################################################
+.br
+#sta net loc mod np pas lf hf  nt    dt   tr  tt  v/d mulfac used ts0 wt wvtyp  #
+.br
+CGM3 NM 00 cus 3 2 0.075 0.15  1024  0.05 0.0 0.0 d  1.0 y  +0.00 +1.0 Surf/Pnl # R=89.6 Az=61
+.br
+PENM NM 00 cus 3 2 0.075 0.15  1024  0.05 0.0 0.0 d  1.0 y  +0.00 +1.0 Surf/Pnl # R=96.1 Az=122
+.br
+HENM NM 00 cus 3 2 0.075 0.15  1024  0.05 0.0 0.0 d  1.0 y  +0.00 +1.0 Surf/Pnl # R=97.6 Az=102
+.br
+GNAR NM 00 cus 3 2 0.075 0.15  1024  0.05 0.0 0.0 d  1.0 y  +0.00 +1.0 Surf/Pnl # R=114.8 Az=156
+.br
+CCM  IU 00 cus 3 2 0.075 0.15  1024  0.07 0.0 0.0 d  1.0 y  +0.00 +1.0 Surf/Pnl # R=141.8 Az=334
+.br
+CCM  IU 10 cus 3 2 0.075 0.15  1024  0.07 0.0 0.0 d  1.0 y  +0.00 +1.0 Surf/Pnl # R=141.8 Az=334
+.br
+SIUC NM 00 cus 3 2 0.075 0.15  1024  0.07 0.0 0.0 d  1.0 y  +0.00 +1.0 Surf/Pnl # R=147.5 Az=52
+.br
+SLM  NM "" cus 3 2 0.075 0.15  1024  0.08 0.0 0.0 d  1.0 y  +0.00 +1.0 Surf/Pnl # R=193.9 Az=8
+.br
+################################################################################################
+.br
+#WVT IU 00 cus 3 2 0.075 0.15  1024  0.11 0.0 0.0 d  1.0 n  +0.00 +1.0 Surf/Pnl # R=257.2 Az=109
+.br
+#WVT IU 10 cus 3 2 0.075 0.15  1024  0.11 0.0 0.0 d  1.0 n  +0.00 +1.0 Surf/Pnl # R=257.2 Az=109
+.br
+
+.SH Example
+.br
+glib2inv par=mtinv.par noverbose parallel
+
+.SH "SEE ALSO"
+.IR mkgrnlib (1),
+.IR makepar (1),
+.IR sacdata2inv (1),
+.IR mtinv (1),
+.IR mteig (1),
+.IR grn2Mxy (1)

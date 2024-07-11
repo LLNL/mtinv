@@ -1,0 +1,143 @@
+.TH grnlib2sac 1 "27 April 2023" "MTINV Version 4.0.1" "MTINV Toolkit"
+
+.SH NAME 
+grnlib2sac \- Generates synthetic seismograms from Green's funciton library 
+
+.SH SYNOPSIS
+grnlib2sac
+glib=(string) 
+z=(float) 
+[no]dumpgn 
+[no]verbose 
+date=(string)
+[no]dounits_cm2m
+[no]dointerp
+[no]noise
+nMw=(float)
+tr=(float) 
+tt=(float) 
+type=(integer)
+az=(float)
+wave_type_fiber=(string)
+azi_fiber=(float)
+
+.TP
+.B type=0 Normalized Moment Tensor Elements and Total Seismic Moment in dyne*cm.
+TP
+Mxx={float} Myy={float} Mzz={float} Mxy={float} Mxz={float} Myz={float} Mo={float}
+
+.TP
+.B type=1 Double-couple Fault Strike, dip, and rake in degrees Aki's convention and Mw
+str={float} dip={float} rake={float} Mw={float}
+
+.TP
+.B type=2 Double-couple Fault Strike, dip, and rake in degrees Aki's convention and Mw, isotropic, clvd, dc percentages
+str={float} dip={float} rake={float} Mw={float} piso={float} pclvd={float} pdc={float}
+Piso+Pclvd+Pdc must add up to 1.0
+
+.SH DESCRIPTION
+Computes the ground displacements (z,r,t) given one type of source input, type=0
+is the tensor input, type=1 is the focal mechanism and seismic moment, or type=2
+which seperates the moment into isotropic and double couple.  The synthetic seismograms can
+be convolved with a 
+source time function (ramp rise time and boxcar time lengths).  The program reads the 
+Green's function library (as a function of depth) for a single source station pair.  The output are 
+SAC formatted binary files.  Use sac2xy.c to get the raw ASCII data.  The program is ideal for when
+quick forward calculations are needed to check recorded data.  Version 2 include a feature that
+adds noise relative to a moment magnitude.  
+
+.SH REQUIRED PARAMETERS
+
+.TP
+.B glib={string}
+The file name of the Green's function library ".glib" file.  (required)
+
+.TP
+.B z={float}
+The source depth in km. Must be a depth computed in the Green's function library ".glib" file.  See par file from mkgrnlib
+
+.SH OPTIONAL PARAMETERS
+
+.TP
+.B [no]dumpgrn
+write out only Green's functions for z= depth in km
+
+.TP
+.B [no]verbose
+verbosy output for diagnosis (default off)
+
+.TP
+.B date=(string)
+origin-time format: YYYY/MM/DD,HH24:mm:ss.ss YYYY-MM-DDTHH24:mm:ss.ssss [default "2008-01-01T00:00:00.00"]
+
+.TP
+.B [no]dounits_cm2m
+convert output units of synthetic waveform amplitudes from centimeters to meters (default off) units originally cm displacement
+
+.TP
+.B [no]dointerp
+perform Wiggins interpolation to sampling rate of 0.02 sec/sample (default off)
+
+.TP
+.B tr={float}
+The ramp rise time in seconds.  If tr=0 and tt>0 then the source time function is a boxcar. (default 0) no source-time func
+
+.TP
+.B tt={float}
+The boxcar rise time in seconds.  If tt=0 and tr>0 then the source time function is a triangle. (default 0) no source-time func
+
+.TP
+.B [no]noise 
+add white Gaussian noise (default off)
+
+.TP
+.B nMw={float}
+If noise then enter the level of the noise in units of Mw for freq band of interest (required)
+
+.TP
+.B seed={integer}
+If noise then enter the random seed for noise (default 1)
+
+.TP
+.B type={integer}
+Source Input Mode Type where type=0 Input Moment Tensor, type=1 Input Pure Deviatoric Source (Strike/Dip/Rake)
+and type=2 Input Pure Deviatoric source plus isotropic component
+
+.TP
+.B If type=0 Mxx={float} Myy={float} Mzz={float} Mxy={float} Mxz={float} Myz={float} 
+Normalized Moment Tensor Elements
+
+.TP
+.B If type=0 Mo={float}
+Total Seismic Moment in Dyne Cm.
+
+.TP
+.B If type=1 str={float} dip={float} rake={float}
+Fault Strike, dip, and rake in degrees.  Aki's convention.
+
+.TP
+.B If type=1 Mw={float}
+Scalar seismic moment magnitude.
+
+.TP
+.B If type=2 str={float} dip={float} rake={float}
+Fault Strike, dip, and rake in degrees.  Aki's convention.
+
+.TP
+.B If type=2 Mw= Piso=
+Total Moment Magnitude and The percent of the total moment allocated to isotropic
+
+.SH Example
+.br
+Compute synthetics for station CMB at 10 km depth with the following strike-slip focal mechanism.
+.br
+.br
+.TP 
+.B grnlib2sac glib=CMB.BK.wus.glib z=10 nonoise type=1 str=359 dip=89 rak=-179 Mw=5.1 tr=0 tt=0
+
+.SH "SEE ALSO"
+.IR mkgrnlib (1),
+.IR grnlib2sac (1),
+.IR sacdata2inv (1),
+.IR mtinv (1)
+.IR rdseed (1)

@@ -1,0 +1,83 @@
+
+See the manpage for further details on what `open' is and what it can do
+for you (to have a quick look at the manpage, you may issue the following
+command in a shell: `nroff -man open.1 | more')
+
+Please note that this project has absolutely no relation to NeXT!
+
+
+Installation:
+
+If you have received the binary package (open.x.y.NI.b.pkg) you can install
+open with Installer.app. This procedure will install the binary (open),
+several links to it (appopen, unhide, run, Edit and Emacs[1]) and manpages
+for open, appopen, unhide and run.
+
+If you have received the source package you can either use ProjectBuilder
+to install open or issue the following command in a shell: `make install'
+This will install the binary (open) and its manpage. To install the
+above mentioned links and other manpages, you will need to build the
+`installextras' target. To do so, either add a target `installextras'
+in ProjectBuilder or use the following command in a shell: `make
+installextras'
+
+If you use a newer version of tcsh, you may want to include these lines
+in your `.tcshrc'. These will change the behavior of the listing and
+file-completion in tcsh. You will need to customize the list of hosts you
+want to use together with -NXHost. (substitute 'host1 host2')
+
+set		nexthosts= (host1 host2)
+set		nextapps=`/bin/ls -1 ~/Apps /LocalApps /LocalDeveloper/Apps /NextAdmin /NextApps /NextDeveloper/Apps /NextDeveloper/Demos |& grep '\.app$' | sort -u | sed 's/\.app$//g' `
+complete	appopen 'p/1/$nextapps/' 'n/-a/$nextapps/' 'n/-NXHost/$nexthosts/' 'c/-/(a o p NXHost unhide nostat wait temp)/' 'n/*/f/'
+complete	unhide 'p/1/$nextapps/' 'n/-a/$nextapps/' 'n/-NXHost/$nexthosts/' 'c/-/(a o p NXHost unhide nostat wait temp)/' 'n/*/f/'
+complete	run 'p/1/$nextapps/' 'n/-a/$nextapps/' 'n/-NXHost/$nexthosts/' 'c/-/(a o p NXHost unhide nostat wait temp)/' 'n/*/f/'
+complete	open 'n/-a/$nextapps/' 'n/-NXHost/$nexthosts/' 'c/-/(a o p NXHost unhide nostat wait temp)/' 'n/*/f/'
+
+
+Distribution:
+
+open must only be distributed free of charges. (for other ways of
+distribution you have to get my written consent) You are only allowed to
+distribute unmodified copies of this software. You may distribute modified
+copies if you unmistakably mark them as such. You are only allowed to
+distribute this software in a bundle (compressed tar archive or any other
+archiving/compressing method with similar purpose) including all files that
+are part of this software package (open.m open.h open.1 open.info appopen.1
+Makefile Makefile.postamble Makefile.preamble PB.project)
+
+
+Warranty:
+
+- Limited Warranty:
+    This software is provided 'as is' without warranty of any kind, either
+    expressed or implied, including, but not limited to, the implied
+    warranties of merchantability and fitness for a particular purpose. The
+    entire risk as to the quality and performance of the program is with
+    you. Should the program prove defective, you assume the cost of all
+    necessary servicing, repair or correction.
+
+- No Liability For Consequential Damages:
+    In no event will Christian Limpach, anyone who was involved in the
+    creation or who redistributed the program as permitted, be liable
+    to you for damages, including any general, special, incidental or
+    consequential damages arising out of the use or inability to use the
+    program (including but not limited to loss of data being rendered
+    inaccurate or losses sustained by your or third parties or a failure
+    of the program to operate with any other programs), even if Christian
+    Limpach or any other party has been advised of the possibility of such
+    damages.
+
+
+Contact:
+
+    Christian Limpach
+    chris@nice.ch
+
+
+[1] Emacs is Carl Edman's really amazing and 'never would like to miss it
+again' port of GNU Emacs to NEXTSTEP.
+
+All products or trademarks mentioned in this program are trademarks of
+their respective trademark holders.
+
+Copyright (c)1994, Christian Limpach. All rights reserved.

@@ -1,0 +1,64 @@
+.TH sac2xy 1 "27 April 2023" "MTINV Version 4.0.1" "MTINV Toolkit"
+
+.SH NAME
+sac2xy \- Converts Seismic Analysis Code (SAC) into simple ASCII text (x,y) columns.
+
+.SH SYNOPSIS
+sac2xy [no]xreset tshift=(float) [no]norm sc=(float) [no]xdeg [no]xkm [no]normfac [no]verbose [no]fixZeroDiv ot=(string) < stdin
+
+.SH DESCRIPTION
+Converts Seismic Analysis Code (SAC) binary formatted files into simple ASCII text (x,y) columns to plot waveforms using GMT psxy
+
+
+.SH REQUIRED PARAMETERS
+.TP
+.B stdin
+SAC file standard input 
+
+.SH OPTIONAL PARAMETERS
+.TP 
+.B [no]xreset
+Reset the x-values to start from 0 (default off == noxreset).
+
+.TP
+.B tshift=(float)
+shift the start time of the first sample by tshift seconds
+
+.TP
+.B [no]norm
+normalize amplitudes to 1 by dividing by peak max absolute amplitude
+
+.TP
+.B sc=(float)
+scale amplitudes by sc 
+
+.TP
+.B [no]xdeg 
+scale amplitudes by gcarc value (distance in degrees), for record sections
+
+.TP
+.B [no]xkm
+scale amplitudes by gcarc value (distance in km), for record sections
+
+.TP 
+.B [no]normfac
+depricated?
+
+.TP
+.B [no]verbose
+verbose output
+
+.TP 
+.B [no]fixZeroDiv
+prevent division by zero by clipping small amplitudes to 1.0E-09.
+
+.TP
+.B ot=(string)
+enter a reference origin-time 
+
+.SH "SEE ALSO"
+.IR sac2gmtmap (1),
+.IR mtinv (1),
+.IR mteig (1)
+
+

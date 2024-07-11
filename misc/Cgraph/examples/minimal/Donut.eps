@@ -1,0 +1,22 @@
+%!PS-Adobe-2.0 EPSF-2.0
+%%BoundingBox: 0 0 200 200
+
+% An example of PS that adapts color usage depending on device's color capability.
+
+/__UseColor {statusdict begin /processcolors where {pop processcolors}{1} ifelse end 2 ge} def
+% /__UseColor false def		% override in fixed mode, set to true or false
+
+% Define "setgrayrgbcolor" which expects on stack: gray r g b
+__UseColor { /setgrayrgbcolor { setrgbcolor pop } def }
+    { /setgrayrgbcolor { pop pop pop setgray } def } ifelse
+
+100 100 70 0 360 arc
+200 100 moveto
+100 100 100 0 360 arc
+0 0 0.8 0.8 setgrayrgbcolor	% black on BW dev, cyan on color dev
+eofill
+newpath 100 100 85 0 360 arc
+1 1 0 0 setgrayrgbcolor		% white on BW device, red on color device
+2 setlinewidth stroke
+showpage	% is allowed in EPS
+

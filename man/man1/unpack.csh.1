@@ -1,0 +1,27 @@
+.TH unpack.csh 1 "27 April 2023" "MTINV Version 4.0.1" "MTINV Toolkit"
+
+.SH NAME
+unpack.csh \- 
+
+.SH SYNOPSIS
+unpack.csh [tar file]
+
+.SH DESCRIPTION
+A C-Shell script which "unpacks" or extracts SAC binary formatted files, SAC Pole Zero instrument response files, 
+and station information among other things that rdseed can extract.  
+
+Update: rdseed was depercated and EarthScope/SAGE facility (formerly IRIS) now distributes tar archive SAC little endian binary files and sac_paz (poles and zeros) response files. unpack.csh moves the SAC files into a directory called ./Data and response files ./Resp.  
+unpack.csh was modified and a helper application setupMT runs at the end to autogenerate makeglib.csh.
+sacgmt2map is run to create map of stations and rdseed.statoins file for mkgrnlib.
+
+.SH REQUIRED PARAMETERS
+.TP
+.B [tar file]
+
+.SH "SEE ALSO"
+.IR setupMT (1),
+.IR renamesac (1),
+.IR rename_SACPZs.csh (1),
+.IR sac2gmtmap (1),
+.IR mkgrnlib (1),
+.IR makepar (1)

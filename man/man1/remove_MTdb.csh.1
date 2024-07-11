@@ -1,0 +1,48 @@
+.TH remove_MTdb.csh 1 "27 April 2023" "MTINV Version 4.0.1" "MTINV Toolkit"
+
+.SH NAME 
+remove_MTdb.csh \- for one moment tensor ID "mtid" database key, remove all moment tensor tables stored in sqlite3 database (see https://sqlite.org/index.html).  
+
+.SH SYNOPSIS
+remove_MTdb.csh {mtid} {sqlite3 database file}
+.sp
+or
+.sp
+remove_MTdb.csh all {sqlite3 database file}
+ 
+.SH DESCRIPTION
+for one moment tensor ID "mtid" database key, remove all moment tensor tables loaded into the sqlite3 database file. File is usually stored in ./mtinv.version/data/mt.db 
+
+.TP
+.B Tables:
+MT_ORIGIN_STAGE
+.br
+MT_ORIGIN_STAGE
+.br
+MOMENT_STAGE
+.br
+FOCAL_PLANE_STAGE
+.br
+MT_DATA_STAGE
+.br
+MT_WAVEFORM_SEGMENT_STAGE
+.br
+MT_FILTER_STAGE
+.br
+MT_EARTHMODEL_STAGE
+.br
+MT_PHASE_DATA_STAGE
+.br
+
+.SH OPTIONAL PARAMETERS
+
+.TP
+.B {mtid}
+moment tensor ID (database key), or "all" or "ALL" can be used to remove all rows.
+
+.TP
+.B {sqlite3 database file}
+Define either on the command line argument or uses environmental variable MT_DATABASE_FILE 
+
+.SH "SEE ALSO"
+.IR mtinv (1)

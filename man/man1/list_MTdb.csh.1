@@ -1,0 +1,23 @@
+.TH list_MTdb.csh 1 "27 April 2023" "MTINV Version 4.0.1" "MTINV Toolkit"
+
+.SH NAME 
+list_MTdb.csh \- list all moment tensor solutions stored in sqlite3 database (see https://sqlite.org/index.html).  
+
+.SH SYNOPSIS
+list_MTdb.csh {sqlite3 database file}
+.br
+ 
+.SH DESCRIPTION
+Lists moment tensor solutions loaded into the sqlite3 database file. File is usually stored in ./mtinv.version/data/mt.db 
+.br
+Prints:
+orid mtid OriginTime lat lon depth Mw PDC VR algorithm grname lddate
+
+.SH OPTIONAL PARAMETERS
+
+.TP
+.B {sqlite3 database file}
+Define either on the command line argument or uses environmental variable MT_DATABASE_FILE 
+
+.SH "SEE ALSO"
+.IR mtinv (1)

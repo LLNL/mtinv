@@ -1,0 +1,49 @@
+.TH grn2Mxy 1 "27 April 2023" "MTINV Version 4.0.1" "MTINV Toolkit"
+
+.SH NAME 
+grn2Mxy \- converts Green's function library from Helmberger and Langston (1975) 3 
+fundamental faulting orientations format to Mij format.
+
+.SH SYNOPSIS
+grn2Mxy glib=(string) z=(float) mtdegfree=(integer) [no]verbose [no]wrtdir
+.br
+ 
+.SH DESCRIPTION
+Reads Green's function libraries from mkgrnlib using the 3 fundamental faulting orientations:
+	 SS,DS,DD+Isotropic format of Helmberger and Langston (H&L 1975) and outputs Gfs in Mij format.
+	 Writes output to new directories: (e.g.), "INCN/IU.INCN.00.mdj2.glib.rxx.grn" where 
+	 extensions *.{cmp}(i}{j}.grn are Mij i={x,y,z} j={x,y,z}, and component cmp={z,r,t} 
+	 Use glib2inv test_special and mtinv special argument options 
+
+.SH REQUIRED PARAMETERS
+
+.TP
+.B glib={string}
+Green's function library file (*.glib)
+
+.TP
+.B z={float}
+Source Depth in km, only valid depths are in the Green's function library file
+
+.TP
+.B mtdegfree={integer}
+Moment tensor degrees of freedom.  1=isotropic source only, 5=devatoric moment tensor, 6=full moment tensor
+
+.SH OPTIONAL PARAMETERS
+
+.TP
+.B [no]verbose 
+Verbosy output for debugging is \fIverbose\fP and for no verbosy output is \fInoverbose\fP [default off].
+
+.TP
+.B [no]wrtdir
+Write out "Dump" the Green's functions as SAC formatted binary files into directories by station code name [default off].
+
+.SH Example
+.br
+grn2Mxy glib=IU.INCN.00.mdj2.glib z=14 mtdegfree=5 wrtdir verbose
+
+.SH "SEE ALSO"
+.IR mkgrnlib (1),
+.IR glib2sac (1),
+.IR mtinv (1)

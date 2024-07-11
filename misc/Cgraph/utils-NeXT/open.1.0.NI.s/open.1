@@ -1,0 +1,190 @@
+.TH OPEN 1L "Local Commands" "" \" -*- nroff -*-
+.SH NAME
+open, appopen, run, unhide \- open files and applications
+.SH SYNOPSIS
+.\" -activate and -makeKey are not yet documented, since they are the
+.\" same as -unhide for now.
+.B open
+[\-a \fIapp\fR] [\-o \fIfile\fR] [\-p] [\-NXHost \fIhostname\fR]
+[\-unhide] [\-nostat] [\-wait] [\-temp] [+\fIlinenum\fB]
+[\fIfilename\fR]
+\&.\|.\|.
+.br
+.B appopen
+.I app
+.br
+.B run
+.I app
+.br
+.B unhide
+.I app
+.br
+.I app
+[\fIoptions\fR]
+.SH DESCRIPTION
+The
+.B open
+command allows shell scripts or
+.B Terminal
+users to make requests to
+NEXTSTEP applications. The applications may be launched or unhidden,
+can be asked to open or print files. Besides the added options, it
+should behave exactly like earlier (working) versions of NeXT's
+.B open
+command did. It does not require the ``Public Window Server'' switch (a
+major security hole) in the
+.B Preferences
+application to be turned on to work correctly.
+
+If no options are given at all or the special file name "\-" is used,
+standard input is read. PostScript (.ps), Encapsulated PostScript
+(.eps), and Rich Text Format (.rtf) files are recognized on standard
+input and sent to the appropriate applications. All other files are
+considered typeless, i.e. they are opened in either the named
+application (see \fI\-a\fR) or the default application (normally
+\fBEdit\fR).
+
+Wherever the word \fIfile\fR is used, it also applies to wrappers and
+ordinary directories.
+.SS OPTIONS
+.TP
+.RI "\-a" " app"
+All further requests are directed to the named application. The
+application is launched if it is not running yet. If no
+.I \-a
+option is given, the Workspace is asked for the default application
+for the files.
+.TP
+.RI "\-o" " file"
+The application will be asked to open the named file. This option can
+be used to switch back from print mode or to prefix a file name which
+could be mistaken as an option. File names can also be escaped from
+being mistaken as an option by prefixing them with `./' (this also
+works with all other commands).
+.TP
+.RI "\-p"
+The application will be asked to print the specified files. Print mode
+will apply to all files given up to the next
+.I "\-o"
+option.
+.TP
+.RI "\-NXHost" " hostname"
+All requests are directed to the Workspace and applications on the
+remote host. The files to be accessed are looked for on the remote
+host's file system. This option requires the ``Public Window Server''
+switch on the remote host to be turned on, which is major security
+hole, if you are connected to a network.
+.TP
+.RI "\-unhide"
+The named application is unhidden. Most applications will also unhide
+on a file opening request.
+.TP
+.RI "\-nostat"
+The checks whether the next file to be opened or printed does not
+exist will not be performed. In case of failure of a request to an
+application, it is not possible to find out whether the file did not
+exist or the application could not open it. It is necessary for
+.IR \-NXHost ,
+unless there is also a local file with the same name as the remote
+file. This option also allows certain applications (such as
+.BR Emacs )
+to open files that do not exist yet.
+.TP
+.RI "\-wait"
+.B open
+will not continue until the next file given is saved for the first time.
+.TP
+.RI "\-temp"
+The next file will be opened as a temporary file. This tells the
+application it should remove the file when it is done. Despite it
+belongs to the official API, only few applications (such as
+.BR Preview )
+honor this request.
+.TP
+.RI "+" "linenum"
+In the next file, line number
+.I linenum
+will automatically be selected. This is currently only supported by
+.B Edit
+and
+.BR Emacs .
+.SS ALTERNATE NAMES
+.br
+.B open
+can also be invoked by other names, where some defaults are
+automatically set.
+.TP
+.BI "run" " app," " appopen" " app"
+Behave as if it was invoked as
+.BI "open -a" " app" \fR.
+.TP
+.BI "unhide" " app"
+Identical to
+.BI "open -a" " app" " -unhide" \fR.
+.TP
+.I "app"
+If
+.B open
+is invoked with any other name, it behaves as if it were called as
+.BI "open -a" " app" \fR.
+.SH EXAMPLES
+.TP
+.B "open *.rtf"
+opens all files ending in `.rtf' in the default application for this
+file type (usually
+.BR Edit ).
+.TP
+.B "open -p *.rtf"
+prints all these files.
+.TP
+.B "open /tmp"
+opens up a new file viewer showing the contents of the named
+directory.
+.TP
+.B "appopen Yap Test.ps"
+launches
+.B Yap
+(if it is not already running) and asks it to open
+.BR Test.ps .
+.TP
+.B "Emacs *"
+opens all files in
+.B Emacs
+(`Emacs' needs to be a link to `open').
+.TP
+.B "open -a Emacs -wait snd.2935"
+asks
+.B Emacs
+to open the file.
+.B open
+will not continue unless the file has been saved. This is an
+alternative to using
+.B emacsclient
+as your editor from within Unix programs.
+.SH BUGS
+The
+.IR \-p ", " \-temp
+and
+.I +linenum
+options are only supported by few applications.
+
+.I \-NXHost
+should imply
+.IR \-nostat .
+The current behaviour is compatible to the original
+.BR open .
+
+.I \-NXHost
+requires ``Public Window Server'' (a major security hole) to be turned
+on (this is
+.B not
+our fault).
+.\" *HINT, HINT*
+
+.SH AUTHORS
+This version of
+.B open
+was written by Christian Limpach <chris@nice.ch>, with suggestions by
+Felix Rauch <felix@nice.ch> and Marcel Waldvogel
+<waldvogel@uptime.ch>. This manual page was written by Marcel
+Waldvogel.

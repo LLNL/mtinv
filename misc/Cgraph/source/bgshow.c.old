@@ -1,0 +1,84 @@
+/******************************************************************/
+/*	GSHOW.C   Necessary for the laserwriter to send a page    */
+/*                through                          		  */
+/*	Wayne Crawford, Univ. of California, Berkeley		  */
+/*	   9-09-87  starting					  */
+/******************************************************************/
+
+/*	Modified on 5/13/92 by WEG (to use on NeXT's)		  */
+
+#include "cglobals.h"
+#include <stdio.h>
+#include <string.h>
+/****************************************************************************/
+
+lw_show()
+{
+	char strbuf[128];
+	FILE *poopen;
+	int printSaveFunction=0;
+	fprintf(cgstream,"showpage\n");
+	fprintf(cgstream,"TailorGroupEnd\n");
+	fprintf(cgstream,"%%%%Trailer\n");	/* Don't put %%PageTrailer */
+	lw_laser_close();
+	/* Launch PS Preview.app with temp file */
+	sprintf(strbuf, "open -temp %s", filnam);
+	system(strbuf);
+	switch (printit)
+	{
+		char yorn[128];
+		case 0:
+			break;
+		case 1:
+			poopen=popen("Print", "r");
+			switch (fscanf(poopen, "%d", strbuf))
+			{
+				case EOF: 
+					break;
+				case 1:
+					sprintf(strbuf, "lpr %s", filnam);
+					system(strbuf);
+					break;
+				case 2:
+					printSaveFunction=1;
+					fscanf(poopen, "%s", strbuf);
+					break;
+			}
+			pclose (poopen);
+			break;
+		case 2: 
+			sprintf(strbuf, "lpr %s", filnam);
+			system(strbuf);
+			break;
+	}		
+	if (saveit)
+	{
+		if (printSaveFunction==0)
+		{
+			poopen=popen("Save", "r");
+			if (fscanf(poopen, "%s", strbuf)==EOF)
+			{
+				printf ("\nNo file saved\n");
+			}
+			else printSaveFunction++;
+			pclose (poopen);
+		}
+		if (printSaveFunction)
+		{
+			char str2[128];
+			printf("\nSaving File\n");
+			sprintf(str2, "cp %s %s", filnam, strbuf);
+			system(str2);
+		}
+	}
+	return(0);
+}
+
+/***************************************************************************/
+
+cg_showpage() 
+{
+	lw_show();
+}
+
+

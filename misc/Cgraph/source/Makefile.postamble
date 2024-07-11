@@ -1,0 +1,7 @@
+#
+#  A make bug workaround --
+#    Make sure we don't remove anything by accident if 
+#    interrupted at the wrong time.  (NextAnswers - misc.736)
+#
+.PRECIOUS : $(SRCFILES)
+
