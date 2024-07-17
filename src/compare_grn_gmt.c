@@ -366,3 +366,5 @@ char *string_toupper(char *mystring)
 		temp[i] = toupper(mystring[i]);
 	return (char *)temp;
 }
+
+/*** g.ichinose 7/17/2024 tested and changes committed ***/
