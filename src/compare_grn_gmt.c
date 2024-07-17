@@ -351,19 +351,18 @@ void plot_compare_grnlib_GMT5( Greens *g1, Greens *g2, int ista, char *wavetype_
 	if( make_output_dirs ) chdir( ".." );
 }
 
+/********************************************************************************/
+/*** this converts to uppercase and returns new string, leaves original alone ***/
+/*** g.ichinose 7/17/2024 - fixed bug, forgot to allocate string space        ***/
+/********************************************************************************/
 
 char *string_toupper(char *mystring)
 {
-	int i;
 	char *temp;
-	for( i = 0; i < 512; i++ )
-	{
-		if( mystring[i] == '\0' )
-		{
-			temp[i]='\0';
-			break;
-		}
+	int i, n;
+	n = strlen( mystring );
+	temp = calloc(n,sizeof(char));
+	for( i = 0; i < n; i++ )
 		temp[i] = toupper(mystring[i]);
-	}
 	return (char *)temp;
 }

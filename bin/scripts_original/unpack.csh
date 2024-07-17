@@ -2,9 +2,13 @@
 
 if( $#argv == 1 ) then
 	set tar_file=$1
-	set tar_directory=(`echo $tar_file | cut -d. -f1` )
 
-        echo " unpacking tar file ${tar_file} into director ${tar_directory} "
+	## when using just filename no path
+	## set tar_directory=(`echo $tar_file | cut -d. -f1` )
+
+	## when using full or relative paths
+        set tar_directory=(`echo $tar_file | awk -F/ '{print $NF}' | cut -f1 -d. `)
+        echo " unpacking tar file ${tar_file} into directory ${tar_directory} "
 else
         echo "$0 needs 1 argument"
         echo " Usage : $0 tar_file "
@@ -14,7 +18,7 @@ endif
 ### untar the iris download 
 ###
 if( -e ${tar_file} ) then
-  tar xvf ${tar_file}
+  tar xvf ${tar_file} -C .
 else
   echo "$0 ERROR! IRIS download tar file does NOT exist in current directory"
   exit(-1)
