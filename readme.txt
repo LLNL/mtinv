@@ -1,9 +1,10 @@
-MTINV Version 4.0.1
-Tue Jul  2 14:25:39 PDT 2024
+MTINV Version 4.0.2
+Wed Jul 17 17:56:54 PDT 2024
 
 Updated(see bottom)
 Tue Sep 19 00:10:53 PDT 2023
 Sun Feb  4 21:08:22 PST 2024
+Wed Jul 17 17:56:50 PDT 2024 last MTINV version 4.0.1
 
 Dependencies:
 Requires: GCC and GFortran compilers
@@ -74,6 +75,9 @@ Sun Feb  4 21:08:44 PST 2024
 Update:
 Tue Jul  2 14:25:50 PDT 2024
 Major deletes of obsolete, deprecated code. Cleaned out for review&release
+Wed Jul 17 17:57:15 PDT 2024
+2 memory allocation errors were fixed that caused random segfaults, added sqlite3 SQL to create new database tables and sequence IDs
+These changes lead to minor version 4.0.2 to track debug logistics
 
 geneichinose@yahoo.com
 ichinose1@llnl.gov

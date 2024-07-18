@@ -3,7 +3,7 @@
 #### Put these in your .cshrc or .tcshrc or .bashrc
 #### of couse change your home directory path
 
-setenv MTINV_VERSION_LABEL v4.0.1
+setenv MTINV_VERSION_LABEL v4.0.2
 setenv MTINV_PATH          /Users/ichinose1/Work/mtinv.${MTINV_VERSION_LABEL}
 setenv MT_DATABASE_FILE    /Users/ichinose1/Work/mtinv.${MTINV_VERSION_LABEL}/data/mt.db
 setenv MTINV_GMT_GRID_FILE /Users/ichinose1/Work/topogmt/etopo5.grd
