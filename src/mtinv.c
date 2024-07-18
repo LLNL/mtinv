@@ -572,7 +572,16 @@ int main(int ac, char **av)
 	  int nz = 1;
 	  grn = (Greens **)malloc( nsta*sizeof(Greens *) );
 
+	/*** previous version forgot to allocate memory for DepthVector:zvec ***/
+
+	  zvec = (DepthVector *) calloc( nsta, sizeof(DepthVector) );
+
+	/**** this loads from SAC files and is limited to just 1 depth ***/
+
 	  z = (float *)load_special_grns( ev, grn, nsta, &nz, verbose );
+
+	/*** print out to debug and demostration of load_special_grns return vals ***/
+	/*  for( iz = 0; iz < nz; iz++ ) fprintf( stdout, "z[iz=%d]=%g\n", iz, z[iz] ); */
 
 	  for( ista = 0; ista < nsta; ista++ )
 	  {
@@ -581,7 +590,6 @@ int main(int ac, char **av)
 		zvec[ista].z = (float *) calloc(zvec[ista].nz, sizeof(float));
 		zvec[ista].z = z;
 	  }
-
 	}
 	else
 	{
