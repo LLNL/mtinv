@@ -1,0 +1,84 @@
+Seismic Moment Tensor Solution
+2021/11/18 (322) 02:53:04.00 36.9077 -90.5430 New Madrid, MO
+	Depth =  14.0 (km)
+	Mw    =  4.05
+	Mo    =  1.4896x10^22 (dyne x cm)
+	Percent Double Couple = 100 %
+	Percent CLVD          =   0 %
+	no ISO calculated
+	Epsilon=-0.00
+	 Percent Variance Reduction =  86.46 %
+	Major Double Couple
+		            strike dip   rake
+		Nodal Plane 1:  26  67 -170
+		Nodal Plane 2: 292  80  -24
+
+	DEVIATORIC MOMENT TENSOR
+	Moment Tensor Elements: Cartesian Coordinates
+		  1.1038  -0.8976   0.4401
+		 -0.8976  -0.9089   0.4217
+		  0.4401   0.4217  -0.1948
+	Eigenvalues:
+		T-axis eigenvalue=  1.4892
+		N-axis eigenvalue=  0.0004
+		P-axis eigenvalue= -1.4896
+	Eigenvalues and eigenvectors of the Major Double Couple:
+		T-axis ev=  1.4892 trend=341 plunge=9
+		N-axis ev=  0.0000 trend=91 plunge=65
+		P-axis ev= -1.4892 trend=247 plunge=23
+
+	Maximum Azmuithal Gap=179 Distance to Nearest Station= 89.6 (km)
+
+	Number of Stations (D=Displacement/V=Velocity) Used=8 (defining only)
+		
+	 NM.CGM3.00-D NM.PENM.00-D NM.HENM.00-D NM.GNAR.00-D
+	 IU.CCM.00-D IU.CCM.10-D NM.SIUC.00-D NM.SLM.00-D
+
+
+              T ################                            
+          ###   #################--                         
+        #########################----                       
+      ###########################------                     
+     ############################-------                    
+    #############################--------                   
+  -##############################----------                 
+  ###############################----------                 
+ --------#######################------------                
+ --------------#################------------                
+ -------------------###########-------------                
+ ------------------------######-------------                
+ ---------------------------#####-----------                
+ --------------------------#########--------                
+ -------------------------#############-----                
+   ----------------------#################--                
+ P ---------------------###################                 
+   --------------------####################                 
+   ------------------#####################                  
+     ---------------#####################                   
+      ------------#####################                     
+        --------#####################                       
+          ---######################                         
+              ##################                            
+                      #                                     
+
+
+All Stations defining and nondefining: 
+Station.Net 	Def 	Distance 	Azi    	Bazi  	lo-f 	hi-f vmodel
+            	    	(km)     	(deg)  	(deg) 	(Hz) 	(Hz)    
+NM.CGM3.00-(D) 	Y 	    89.6  	 61  	241  	0.075 	0.150 NM.CGM3.00.cus.glib
+NM.PENM.00-(D) 	Y 	    96.1  	122  	302  	0.075 	0.150 NM.PENM.00.cus.glib
+NM.HENM.00-(D) 	Y 	    97.6  	102  	283  	0.075 	0.150 NM.HENM.00.cus.glib
+NM.GNAR.00-(D) 	Y 	   114.8  	156  	336  	0.075 	0.150 NM.GNAR.00.cus.glib
+IU.CCM.00-(D) 	Y 	   141.8  	334  	154  	0.075 	0.150 IU.CCM.00.cus.glib
+IU.CCM.10-(D) 	Y 	   141.8  	334  	154  	0.075 	0.150 IU.CCM.10.cus.glib
+NM.SIUC.00-(D) 	Y 	   147.5  	 52  	233  	0.075 	0.150 NM.SIUC.00.cus.glib
+NM.SLM.00-(D) 	Y 	   193.9  	  8  	188  	0.075 	0.150 NM.SLM.00.cus.glib
+
+ (V)-velocity (D)-Displacement
+
+Author: ichinose1
+Date: 2024/07/15 20:04:03 UTC
+
+Date: 2024/07/15 13:04:03 PDT
+
+mtinv Version 4.0.1 Mon Jul 1 18:10:50 PDT 2024

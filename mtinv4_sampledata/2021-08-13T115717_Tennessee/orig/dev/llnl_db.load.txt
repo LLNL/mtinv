@@ -1,0 +1,2 @@
+orid     mt_type momag m0        pdc  pclvd piso var_red   mxx        myy        mzz        mxy        mxz        myz        author       depth
+10000001 DEV     4.09 1.72e+15   50  50     0     83.98   -2.55e+14  -4.21e+14  +6.76e+14  +4.17e+13  +1.36e+15  +4.47e+14  ichinose1     1.00 2021-08-13T11:57:35.000 2024-07-15T19:31:48.000_mtinv_4.0.1

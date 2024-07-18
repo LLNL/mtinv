@@ -1,0 +1,11 @@
+### station-code network-code location-code mkgrnlib.parfile dt(sec/sample) ### comments
+CGM3     NM     "00" cus.par     0.050 ### R=    90 Az=061 NM.CGM3.00   nchan=1 nseg=1 (HHZ)
+PENM     NM     "00" cus.par     0.050 ### R=    96 Az=122 NM.PENM.00   nchan=1 nseg=1 (HHZ)
+HENM     NM     "00" cus.par     0.050 ### R=    98 Az=102 NM.HENM.00   nchan=1 nseg=1 (HHZ)
+GNAR     NM     "00" cus.par     0.050 ### R=   115 Az=156 NM.GNAR.00   nchan=1 nseg=1 (HHZ)
+CCM      IU     "00" cus.par     0.070 ### R=   142 Az=334 IU.CCM.00    nchan=1 nseg=1 (BHZ)
+CCM      IU     "10" cus.par     0.070 ### R=   142 Az=334 IU.CCM.10    nchan=2 nseg=2 (BHZ HHZ)
+SIUC     NM     "00" cus.par     0.070 ### R=   148 Az=052 NM.SIUC.00   nchan=1 nseg=1 (HHZ)
+SLM      NM     "00" cus.par     0.080 ### R=   194 Az=008 NM.SLM.00    nchan=2 nseg=2 (BHZ HHZ)
+WVT      IU     "10" cus.par     0.110 ### R=   257 Az=109 IU.WVT.10    nchan=2 nseg=2 (BHZ HHZ)
+WVT      IU     "00" cus.par     0.110 ### R=   257 Az=109 IU.WVT.00    nchan=2 nseg=2 (BHZ HHZ)

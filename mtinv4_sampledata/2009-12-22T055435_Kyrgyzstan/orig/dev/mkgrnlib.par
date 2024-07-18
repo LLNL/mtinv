@@ -1,0 +1,10 @@
+### station-code network-code location-code mkgrnlib.parfile dt(sec/sample) ### comments
+ARLS     KR       "" wus.par     0.050 ### R=    80 Az=080 KR.ARLS.     nchan=1 nseg=1 (BHZ)
+EKS2     KN       "" wus.par     0.050 ### R=   108 Az=018 KN.EKS2.     nchan=1 nseg=1 (BHZ)
+UCH      KN       "" wus.par     0.050 ### R=   108 Az=060 KN.UCH.      nchan=1 nseg=1 (BHZ)
+KBK      KN       "" wus.par     0.070 ### R=   165 Az=051 KN.KBK.      nchan=1 nseg=1 (BHZ)
+CHM      KN       "" wus.par     0.070 ### R=   180 Az=038 KN.CHM.      nchan=1 nseg=1 (BHZ)
+USP      KN       "" wus.par     0.080 ### R=   193 Az=028 KN.USP.      nchan=1 nseg=1 (BHZ)
+TKM2     KN       "" wus.par     0.100 ### R=   225 Az=053 KN.TKM2.     nchan=1 nseg=1 (BHZ)
+ULHL     KN       "" wus.par     0.110 ### R=   243 Az=076 KN.ULHL.     nchan=1 nseg=1 (BHZ)
+KKAR     KZ       "" wus.par     0.120 ### R=   280 Az=304 KZ.KKAR.     nchan=1 nseg=1 (BHZ)

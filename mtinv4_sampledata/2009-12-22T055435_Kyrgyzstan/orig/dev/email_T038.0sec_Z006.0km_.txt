@@ -1,0 +1,84 @@
+Seismic Moment Tensor Solution
+2009/12/22 (356) 05:54:38.00 41.7392 73.3770 Kambrata, Kyrgyzstan
+	Depth =   6.0 (km)
+	Mw    =  3.87
+	Mo    =  7.9750x10^21 (dyne x cm)
+	Percent Double Couple =  93 %
+	Percent CLVD          =   7 %
+	no ISO calculated
+	Epsilon=-0.04
+	 Percent Variance Reduction =  65.66 %
+	Major Double Couple
+		            strike dip   rake
+		Nodal Plane 1:  83   7   32
+		Nodal Plane 2: 321  86   96
+
+	DEVIATORIC MOMENT TENSOR
+	Moment Tensor Elements: Cartesian Coordinates
+		 -1.1593  -0.9042  -4.8406
+		 -0.9042   0.2334  -6.0052
+		 -4.8406  -6.0052   0.9260
+	Eigenvalues:
+		T-axis eigenvalue=  7.6941
+		N-axis eigenvalue=  0.2808
+		P-axis eigenvalue= -7.9750
+	Eigenvalues and eigenvectors of the Major Double Couple:
+		T-axis ev=  7.6941 trend=238 plunge=49
+		N-axis ev=  0.0000 trend=141 plunge=6
+		P-axis ev= -7.6941 trend=45 plunge=41
+
+	Maximum Azmuithal Gap=297 Distance to Nearest Station= 79.9 (km)
+
+	Number of Stations (D=Displacement/V=Velocity) Used=8 (defining only)
+		
+	 KR.ARLS.-D KN.EKS2.-D KN.UCH.-D KN.KBK.-D
+	 KN.CHM.-D KN.USP.-D KN.TKM2.-D KN.ULHL.-D
+
+
+              -----------------                             
+          -------------------------                         
+        ##---------------------------                       
+      ######---------------------------                     
+     ########------------------   ------                    
+    ###########---------------- P -------                   
+  -##############--------------   ---------                 
+  ################-------------------------                 
+ ###################------------------------                
+ ####################-----------------------                
+ ######################---------------------#               
+ #######################--------------------#               
+ #########################-----------------##               
+ ##########################----------------##               
+ ############################--------------#                
+ #######   ###################------------##                
+  ###### T ####################----------##                 
+   #####   #####################--------###                 
+   -##############################-----###                  
+     -#############################--####                   
+      --###############################                     
+        --#########################-#                       
+          ---###################--                          
+              -----#######-----                             
+                                                            
+
+
+All Stations defining and nondefining: 
+Station.Net 	Def 	Distance 	Azi    	Bazi  	lo-f 	hi-f vmodel
+            	    	(km)     	(deg)  	(deg) 	(Hz) 	(Hz)    
+KR.ARLS.-(D) 	Y 	    79.9  	 80  	261  	0.033 	0.100 KR.ARLS..wus.glib
+KN.EKS2.-(D) 	Y 	   107.6  	 18  	198  	0.033 	0.100 KN.EKS2..wus.glib
+KN.UCH.-(D) 	Y 	   108.4  	 60  	240  	0.033 	0.100 KN.UCH..wus.glib
+KN.KBK.-(D) 	Y 	   164.6  	 51  	232  	0.033 	0.100 KN.KBK..wus.glib
+KN.CHM.-(D) 	Y 	   179.7  	 38  	219  	0.033 	0.100 KN.CHM..wus.glib
+KN.USP.-(D) 	Y 	   193.1  	 28  	209  	0.033 	0.100 KN.USP..wus.glib
+KN.TKM2.-(D) 	Y 	   224.7  	 53  	235  	0.033 	0.100 KN.TKM2..wus.glib
+KN.ULHL.-(D) 	Y 	   243.2  	 76  	258  	0.033 	0.100 KN.ULHL..wus.glib
+
+ (V)-velocity (D)-Displacement
+
+Author: ichinose1
+Date: 2024/07/16 01:07:06 UTC
+
+Date: 2024/07/15 18:07:06 PDT
+
+mtinv Version 4.0.1 Mon Jul 1 18:10:50 PDT 2024

@@ -1,0 +1,10 @@
+### station-code network-code location-code mkgrnlib.parfile dt(sec/sample) ### comments
+W50A     N4     "00" cus.par     0.050 ### R=    84 Az=207 N4.W50A.00   nchan=1 nseg=1 (HHZ)
+TKL      IM       "" cus.par     0.050 ### R=   104 Az=103 IM.TKL.      nchan=1 nseg=1 (BHZ)
+U49A     N4     "00" cus.par     0.050 ### R=   106 Az=312 N4.U49A.00   nchan=1 nseg=1 (HHZ)
+W52A     N4     "00" cus.par     0.060 ### R=   124 Az=134 N4.W52A.00   nchan=1 nseg=1 (HHZ)
+T50A     N4     "00" cus.par     0.060 ### R=   127 Az=002 N4.T50A.00   nchan=1 nseg=1 (HHZ)
+TZTN     US     "00" cus.par     0.070 ### R=   142 Az=058 US.TZTN.00   nchan=1 nseg=1 (BHZ)
+X51A     N4     "00" cus.par     0.070 ### R=   146 Az=179 N4.X51A.00   nchan=1 nseg=1 (HHZ)
+V48A     N4     "00" cus.par     0.070 ### R=   174 Az=266 N4.V48A.00   nchan=1 nseg=1 (HHZ)
+V53A     N4     "00" cus.par     0.080 ### R=   189 Az=096 N4.V53A.00   nchan=1 nseg=1 (HHZ)

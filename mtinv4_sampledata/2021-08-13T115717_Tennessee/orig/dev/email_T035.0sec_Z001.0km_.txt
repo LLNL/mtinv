@@ -1,0 +1,84 @@
+Seismic Moment Tensor Solution
+2021/08/13 (225) 11:57:35.00 35.8767 -84.8980 Franklin Mine, TN
+	Depth =   1.0 (km)
+	Mw    =  4.09
+	Mo    =  1.7166x10^22 (dyne x cm)
+	Percent Double Couple =  50 %
+	Percent CLVD          =  50 %
+	no ISO calculated
+	Epsilon=0.25
+	 Percent Variance Reduction =  83.98 %
+	Major Double Couple
+		            strike dip   rake
+		Nodal Plane 1: 293   9   95
+		Nodal Plane 2: 109  81   89
+
+	DEVIATORIC MOMENT TENSOR
+	Moment Tensor Elements: Cartesian Coordinates
+		 -0.2551   0.0417   1.3571
+		  0.0417  -0.4213   0.4473
+		  1.3571   0.4473   0.6764
+	Eigenvalues:
+		T-axis eigenvalue=  1.7166
+		N-axis eigenvalue= -0.4296
+		P-axis eigenvalue= -1.2869
+	Eigenvalues and eigenvectors of the Major Double Couple:
+		T-axis ev=  1.7166 trend=18 plunge=54
+		N-axis ev=  0.0000 trend=109 plunge=1
+		P-axis ev= -1.7166 trend=199 plunge=36
+
+	Maximum Azmuithal Gap=59 Distance to Nearest Station= 84.0 (km)
+
+	Number of Stations (D=Displacement/V=Velocity) Used=8 (defining only)
+		
+	 N4.W50A.00-D IM.TKL.-D N4.U49A.00-D N4.W52A.00-D
+	 N4.T50A.00-D US.TZTN.00-D N4.X51A.00-D N4.V48A.00-D
+
+
+              -----#####-------                             
+          ---##################----                         
+        -#########################---                       
+      -##############################--                     
+     ###################   ############-                    
+    #################### T #############-                   
+  -#####################   ##############--                 
+  ########################################-                 
+ -#########################################-                
+ ----######################################-                
+ -------####################################                
+ ----------#################################                
+ --------------#############################                
+ -------------------########################                
+ -------------------------##################                
+ --------------------------------###########                
+  ----------------------------------------#                 
+   ---------------------------------------                  
+   ---------------------------------------                  
+     -----------------------------------                    
+      -------   -----------------------                     
+        ----- P ---------------------                       
+          ---   ------------------                          
+              -----------------                             
+                                                            
+
+
+All Stations defining and nondefining: 
+Station.Net 	Def 	Distance 	Azi    	Bazi  	lo-f 	hi-f vmodel
+            	    	(km)     	(deg)  	(deg) 	(Hz) 	(Hz)    
+N4.W50A.00-(D) 	Y 	    84.0  	207  	 26  	0.075 	0.120 N4.W50A.00.cus.glib
+IM.TKL.-(D) 	Y 	   104.2  	103  	284  	0.075 	0.120 IM.TKL..cus.glib
+N4.U49A.00-(D) 	Y 	   106.0  	312  	132  	0.075 	0.120 N4.U49A.00.cus.glib
+N4.W52A.00-(D) 	Y 	   123.6  	134  	315  	0.075 	0.120 N4.W52A.00.cus.glib
+N4.T50A.00-(D) 	Y 	   127.2  	  2  	182  	0.075 	0.120 N4.T50A.00.cus.glib
+US.TZTN.00-(D) 	Y 	   141.8  	 58  	239  	0.075 	0.120 US.TZTN.00.cus.glib
+N4.X51A.00-(D) 	Y 	   145.7  	179  	359  	0.075 	0.120 N4.X51A.00.cus.glib
+N4.V48A.00-(D) 	Y 	   174.0  	266  	 84  	0.075 	0.120 N4.V48A.00.cus.glib
+
+ (V)-velocity (D)-Displacement
+
+Author: ichinose1
+Date: 2024/07/15 19:31:47 UTC
+
+Date: 2024/07/15 12:31:47 PDT
+
+mtinv Version 4.0.1 Mon Jul 1 18:10:50 PDT 2024
