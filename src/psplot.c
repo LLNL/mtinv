@@ -266,7 +266,7 @@ int psplot(
 			plot_dc_clvd_mech( xc, yc, rad, sol, ev, grn, iz, nsta, planes, ifill, FULLMT, verbose );
 
 		/********************************************************/
-		/*** plot the major double couple if not an explosion ***/
+		/*** plot the major double couple if no isotropic cmp ***/
 		/********************************************************/
 
 			if( sol[iz].mt_type != EXPLOSION && forward == 0 )
