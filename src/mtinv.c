@@ -127,8 +127,10 @@ int main(int ac, char **av)
 	void load_the_data( EventInfo *ev, int nsta, float ts0, int verbose );
 
 	/*** mtinv_subs.c ***/
-	/*** deprecated ***/
+
+	/*** deprecated, replaced by Greens_subs.c:loadGlibAll()  ***/
 	/* float *load_greens( EventInfo *ev, Greens **grn, int nsta, int *nz_tmp, int verbose ); */
+
 	/*** Greens_subs.c:loadGlibAll() ****/
 	Greens **loadGlibAll( Greens **grn, EventInfo *ev, DepthVector *z, int nsta, char *file_type, int verbose );
 
@@ -569,7 +571,7 @@ int main(int ac, char **av)
 
 	if(specialLoadGrnMxy)
 	{
-	  int nz = 1;
+	  nz = 1;
 	  grn = (Greens **)malloc( nsta*sizeof(Greens *) );
 
 	/*** previous version forgot to allocate memory for DepthVector:zvec ***/
@@ -581,7 +583,11 @@ int main(int ac, char **av)
 	  z = (float *)load_special_grns( ev, grn, nsta, &nz, verbose );
 
 	/*** print out to debug and demostration of load_special_grns return vals ***/
-	/*  for( iz = 0; iz < nz; iz++ ) fprintf( stdout, "z[iz=%d]=%g\n", iz, z[iz] ); */
+	  for( iz = 0; iz < nz; iz++ ) 
+	  {
+		fprintf( stdout, "%s: %s: %s: specialLoadGrnMxy = %d z[iz=%d]=%g\n", 
+			progname, __FILE__, __func__, specialLoadGrnMxy, iz, z[iz] );
+	  }
 
 	  for( ista = 0; ista < nsta; ista++ )
 	  {
@@ -1992,6 +1998,7 @@ void invert(
 /*************************************************/
 
 	cols = 6;
+
 	for( iz = 0 ; iz < nz ; iz++ )
 	{
 		 sol[iz].evdp = grn[0][iz].evdp;
