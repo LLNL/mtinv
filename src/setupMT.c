@@ -39,6 +39,7 @@
 * ### https://www.eas.slu.edu/eqc/eqccps.html
 * ###  https://www.eas.slu.edu/eqc/eqc_cps/CPS/CPS330/cps330o.pdf
 *
+* Wed Aug 14 09:28:42 PDT 2024 - modified f96tosac.f filename format output (see comments)
 ***/
 
 #include <stdio.h>
@@ -2170,8 +2171,16 @@ void create_hspec96_script(
 		
 			for( icmp = 1; icmp <= 10; icmp++ )
 			{
-				sprintf( sacfilename, "B%02d%02d%3s.sac", iz+1, icmp, kcmp[icmp] );
-	
+				/*******************************************************************************************/
+				/*** CPS3.30/VOLV/src/f96tosac.f RBH changed the filename format for output GFs          ***/ 
+				/***                                         expanding ntrace field width i2->i3         ***/
+				/*** Version 2002 format(a1,i2,i2,a3,'.sac')                                             ***/
+				/*** Version 2021 format(a1,i3,i2,a3,'.sac') write(ofile,10)'B',ntrace,jtr,stcomp(1:3)   ***/
+				/*******************************************************************************************/
+
+				/*** sprintf( sacfilename, "B%02d%02d%3s.sac", iz+1, icmp, kcmp[icmp] ); ***/
+				sprintf( sacfilename, "B%03d%02d%3s.sac", iz+1, icmp, kcmp[icmp] );
+
 				sprintf( cmdline, "/bin/cp %s %s.%s.%s.%s.%g.%s.SAC", 
 					sacfilename,
 					cl[i].net, 
