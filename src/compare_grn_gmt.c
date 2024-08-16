@@ -55,7 +55,8 @@ int main( int ac, char **av )
 	float tstart = -999, tstop = -999;  /*** user defined start and stop plotting ***/
 
 	void plot_compare_grnlib_GMT5( Greens *g1, Greens *g2, int ista, char *wavetype_string,
-                 int make_output_dirs, float tstart, float tstop, char *filename1, char *filename2, float lf, float hf );
+                 int make_output_dirs, float tstart, float tstop, char *filename1, char *filename2, 
+		 float lf, float hf, int clean_out_tmp_files );
 
 
 /*** misc see ../lib/libget.a ***/
@@ -65,7 +66,7 @@ int main( int ac, char **av )
         void endpar();
 
 /*** processing filtering ***/
-	int bpfilter = 0;
+	int bpfilter = 1;
 	void bandpassFilterGreens( Greens *grn, float lf, float hf, int npole, int npass );
 	int npole = 3, npass = 2;
 	float lf = 0.01, hf = 0.2;
@@ -83,6 +84,10 @@ int main( int ac, char **av )
                         float ts,       
                         int passes );  
 
+	int clean_out_tmp_files = 1; /*** True remove *.grn files ***/
+
+	void Usage(int ac, char **av);
+
 /**********************/
 /**** begin program ***/
 /**********************/
@@ -90,6 +95,9 @@ int main( int ac, char **av )
 	sprintf( wavetype_string, "Surf/Pnl" );
         fprintf( stderr, "%s: Version=%s Release Date=%s\n", progname, Version_Label, Version_Date );
         fprintf( stdout, "%s: Version=%s Release Date=%s\n", progname, Version_Label, Version_Date );
+
+	if ( ac < 4 ) Usage(ac,av);
+
 	setpar(ac,av);
 	mstpar("glib1",    "s", filename1 );
 	mstpar("glib2",    "s", filename2 );
@@ -106,7 +114,7 @@ int main( int ac, char **av )
 		getpar( "npass", "d", &npass );
 		getpar( "npole", "d", &npole );
 	}
-	
+	getpar( "clean", "b", &clean_out_tmp_files );
 	endpar();
 
 	grn1 = calloc(1,sizeof(Greens));
@@ -117,11 +125,14 @@ int main( int ac, char **av )
 	grn2 = loadGlibZ( filename2, my_z, wavetype_string, verbose );
 	if(verbose) printGreensHdr(grn2);
 
-	bandpassFilterGreens( grn1, lf, hf, npole, npass );
+	if(bpfilter)
+	{
+		bandpassFilterGreens( grn1, lf, hf, npole, npass );
+		bandpassFilterGreens( grn2, lf, hf, npole, npass );
+	}
 
-	bandpassFilterGreens( grn2, lf, hf, npole, npass );
-
-	plot_compare_grnlib_GMT5( grn1, grn2, ista, wavetype_string, make_output_dirs, tstart, tstop, filename1, filename2, lf, hf );
+	plot_compare_grnlib_GMT5( grn1, grn2, ista, wavetype_string, make_output_dirs, 
+			tstart, tstop, filename1, filename2, lf, hf, clean_out_tmp_files );
 
   /***********************/
 } /*** end of main()   ***/
@@ -167,7 +178,7 @@ void bandpassFilterGreens( Greens *grn, float lf, float hf, int npole, int npass
 
 void plot_compare_grnlib_GMT5( Greens *g1, Greens *g2, int ista, char *wavetype_string, 
 	int make_output_dirs, float tstart, float tstop, 
-	char *glib_filename1, char *glib_filename2, float lf, float hf )
+	char *glib_filename1, char *glib_filename2, float lf, float hf, int clean_out_tmp_files )
 {
 	int i;
 	int gstart, gend;
@@ -337,7 +348,7 @@ void plot_compare_grnlib_GMT5( Greens *g1, Greens *g2, int ista, char *wavetype_
 		fprintf( fp, "echo %g 0 ratio=%.3f | gmt pstext $R $J -F+f8p,Helvetica,black+jML -N -D-1i/+0.1i -O -K >> ${PS}\n",
                         end, ratio );
 		
-		fprintf( fp, "echo %g 0 PeakAmp=[%5.2e, %5.2e] | gmt pstext $R $J -F+f6p,Helvetica,black+jML -N -D-1.2i/-0.1i -O -K >> ${PS}\n",
+		fprintf( fp, "echo %g 0 PeakAmp= %5.2e, %5.2e | gmt pstext $R $J -F+f6p,Helvetica,black+jML -N -D-1.2i/-0.1i -O -K >> ${PS}\n",
                         end, (peak1 * MoRatio), (peak2 * MoRatio) );
 
 	}
@@ -361,7 +372,9 @@ void plot_compare_grnlib_GMT5( Greens *g1, Greens *g2, int ista, char *wavetype_
         fprintf( fp, "gmt psconvert -A -Tj -E300 ${PS}\n" );
 
         fprintf( fp, "### cleanup and sys dep plotting\n" );
-        fprintf( fp, "/bin/rm -f ${PS} g?.???.*.grns\n" );
+        fprintf( fp, "/bin/rm -f ${PS}\n" );
+	if( clean_out_tmp_files ) fprintf( fp, "/bin/rm -f g?.???.*.grns\n" );
+
         fprintf( fp, "# open ${JPG}\n" );
         fclose(fp);
 
@@ -386,3 +399,28 @@ char *string_toupper(char *mystring)
 }
 
 /*** g.ichinose 7/17/2024 tested and changes committed ***/
+
+
+void Usage(int ac, char **av)
+{
+	/* fprintf( stderr, "commandline arguments = %d\n", ac ); */
+	fprintf( stderr, "\n" );
+	fprintf( stderr, "Usage: %s (required) glib1={string} glib2={string} z={float} \n", av[0] );
+	fprintf( stderr, "\t\t (optional) [no]verbose [no]clean tstart={float} tstop={float} \n" );
+	fprintf( stderr, "\t\t [no]bpfilter lf={float} hf={float} npass={int} npole={int} \n" );
+	fprintf( stderr, "\n" );
+
+	fprintf( stderr, "REQUIRED:\n" );
+	fprintf( stderr, "\t glib1={string} filename of first  *.glib Greens function file in grnlib format\n" );
+	fprintf( stderr, "\t glib1={string} filename of second *.glib Greens function file in grnlib format\n" );
+	fprintf( stderr, "\t z={float}      depth of Greens function in km\n" );
+	fprintf( stderr, "\n" );
+
+	fprintf( stderr, "OPTIONAL:\n" );
+	fprintf( stderr, "\t verbose or noverbose {boolean} verbose output default noverbose\n" );
+	fprintf( stderr, "\t clean or noclean {boolean} delete temporary GFs SAC files after plotting default clean\n" );
+	fprintf( stderr, "\t tstart={float} tstop={float} time window in seconds (default uses absolute times relative to origin-time)\n" );
+	fprintf( stderr, "\t bpfilter / nobpfilter {boolean} default bpfilter\n" );
+	fprintf( stderr, "\t\t if bpfilter then lf={float} hf={float} filter low and hi-freq corner in Hz (default lf=0.01 hf=0.2)\n" );
+	fprintf( stderr, "\t\t if bpfilter then npole=3 and npass=2 3 pole, 2-pass acausal Butterworth bandpass filter\n" );
+}

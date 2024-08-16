@@ -31,3 +31,5 @@
 /bin/rm -f *.jpg 
 /bin/rm -f gmt.* 
 /bin/rm -f plotgrn.csh
+/bin/rm -f *.grn
+/bin/rm -f compare_grn_gmt.par

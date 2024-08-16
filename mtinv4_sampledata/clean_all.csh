@@ -3,7 +3,7 @@
 ###
 ### clean all the test runs for each directory
 ###
-foreach i ( 2009-12-22T055435_Kyrgyzstan 2021-08-13T115717_Tennessee 2021-11-18T025303_Missouri compare_gfs test_grn2Mxy )
+foreach i ( 2009-12-22T055435_Kyrgyzstan 2021-08-13T115717_Tennessee 2021-11-18T025303_Missouri mtinv_sw4 test_grn2Mxy compare_gfs )
 cd $i
 csh ./clean.csh
 cd ..
