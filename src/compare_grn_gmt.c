@@ -265,15 +265,22 @@ void plot_compare_grnlib_GMT5( Greens *g1, Greens *g2, int ista, char *wavetype_
         fprintf( fp, "gmt set PS_PAGE_ORIENTATION        portrait  \n" );
         fprintf( fp, "gmt set MAP_ANNOT_OFFSET_PRIMARY   2p         \n" );
         fprintf( fp, "gmt set MAP_ANNOT_OFFSET_SECONDARY 2p      \n" );
-        fprintf( fp, "gmt set MAP_LABEL_OFFSET           0p       \n" );
         fprintf( fp, "gmt set PS_MEDIA                   letter  \n" );
         fprintf( fp, "gmt set FONT_ANNOT_PRIMARY          9p,Helvetica,black   \n" );
         fprintf( fp, "gmt set FONT_ANNOT_SECONDARY        9p,Helvetica,black  \n" );
         fprintf( fp, "gmt set FONT_LABEL                  9p,Palatino-Bold,black \n" );
         fprintf( fp, "gmt set FONT_LOGO                   9p,Helvetica,black     \n" );
-        fprintf( fp, "gmt set FONT_TITLE                 14p,Times-Bold,black \n" );
-	fprintf( fp, "gmt set FONT_SUBTITLE              12p,Palatino-Bold,black \n" );
+	fprintf( fp, "gmt set FONT_TITLE                 14p,Times-Bold,black \n" );
+
+	fprintf( fp, "gmt set MAP_TITLE_OFFSET 22p \n" ); 
+	fprintf( fp, "gmt set MAP_LABEL_OFFSET 10p \n" );
+	fprintf( fp, "gmt set MAP_HEADING_OFFSET 18p \n" );
+
+	/**** subtitle new feature of GMT 6.5 not compatible with GMTv6.1.0 ***/
+	/* fprintf( fp, "gmt set FONT_SUBTITLE              12p,Palatino-Bold,black \n" ); */
+
         fprintf( fp, "\n" );
+
 
         begin = g1->t0;
         end   = g1->t0 + (g1->nt * g1->dt);
@@ -353,21 +360,24 @@ void plot_compare_grnlib_GMT5( Greens *g1, Greens *g2, int ista, char *wavetype_
 
 	}
 
+	/*** title ***/
 	sprintf( title_string, "Greens Function Comparisons depth=(%g/%g) filter=%g-%g(Hz)",
 		 g1->evdp, g2->evdp, lf, hf  );
+	fprintf( fp, "gmt psbasemap $R $J -Bxf1a10+l\"seconds\" -Byf1a1 -BN+t\"%s\"  -O -K >> ${PS}\n", title_string );
+
+	/*** subtitle ***/
+	sprintf( subtitle_string, "@;red;%s@;; vs. @;black;%s@;;", glib_filename1, glib_filename2 );
+	fprintf( fp, "gmt pstext $R $J -N -F+f10p,Times-BoldItalic,black+jML -D1.6i/1i -O >> ${PS} << EOF\n" );
+	fprintf( fp, "0 0 %s\n", subtitle_string );
+	fprintf( fp, "EOF\n" );
 
 /*** line_color[0] = "red" line_color[1] = "black" ***/
+/* g1->net, g1->stnm, g1->loc, g2->net, g2->stnm, g2->loc, g1->v.modfile, g2->v.modfile, */
 
-	sprintf( subtitle_string, "@;red;%s@;; vs. @;black;%s@;;", glib_filename1, glib_filename2 );
-/*
-		g1->net, g1->stnm, g1->loc, 
-		g2->net, g2->stnm, g2->loc,
-		g1->v.modfile, g2->v.modfile, 
-*/
-        fprintf( fp, "gmt psbasemap $R $J -Bxf1a10+l\"seconds\" -Byf1a1 -BN+s\"%s\"+t\"%s\"  -O  >> ${PS}\n", 
-		subtitle_string, 
-		title_string );
-	
+/***** subtitles was not compatible with GMT version 6.1, may be new feature of GMT 6.5+ ****/
+/* sprintf( subtitle_string, "@;red;%s@;; vs. @;black;%s@;;", glib_filename1, glib_filename2 ); */
+/* fprintf( fp, "gmt psbasemap $R $J -Bxf1a10+l\"seconds\" -Byf1a1 -BN+s\"%s\"+t\"%s\"  -O  >> ${PS}\n", subtitle_string, title_string ); */
+
 	
         fprintf( fp, "gmt psconvert -A -Tj -E300 ${PS}\n" );
 

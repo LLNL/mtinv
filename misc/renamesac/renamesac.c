@@ -40,7 +40,7 @@ int main(int ac, char **av)
 	
 	if (ac == 1) 
 	{ 
-		fprintf(stderr, "renamesac: version 1\n");
+		fprintf(stderr, "renamesac: version 1 - for mtinv g.ichinose 2024\n");
 		fprintf(stderr, "Usage: %s [sacfile(s)]\n", av[0]);
 		exit(-1);
 	}
