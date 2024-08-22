@@ -18,6 +18,7 @@
 
 MTINV Version 4.0.2
 Wed Jul 17 17:56:54 PDT 2024
+Thu Aug 22 12:31:33 PDT 2024 - bugfix getrespfile_subs.c and added GMT version checking to compare_grn_gmt.c
 
 Updated(see bottom)
 Tue Sep 19 00:10:53 PDT 2023
