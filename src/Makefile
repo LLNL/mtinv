@@ -140,8 +140,8 @@ sw4_to_grnlib : sw4_to_grnlib.o $(OBJS_SW4_TO_GRNLIB)
 	$(CC) $(CFLAGS) -o $@ sw4_to_grnlib.o $(OBJS_SW4_TO_GRNLIB) $(GRN_LIBS)
 	mv $@ $(INSTALL)
 
-compare_grn_gmt : compare_grn_gmt.o Greens_subs.o mkdirp2.o
-	$(CC) $(CFLAGS) -o $@ compare_grn_gmt.o Greens_subs.o mkdirp2.o $(GRN_LIBS)
+compare_grn_gmt : compare_grn_gmt.o Greens_subs.o mkdirp2.o check_gmt_version.o
+	$(CC) $(CFLAGS) -o $@ compare_grn_gmt.o Greens_subs.o mkdirp2.o check_gmt_version.o $(GRN_LIBS)
 	mv $@ $(INSTALL)
 
 clean :
