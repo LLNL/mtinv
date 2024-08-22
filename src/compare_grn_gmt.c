@@ -197,7 +197,7 @@ void plot_compare_grnlib_GMT5( Greens *g1, Greens *g2, int ista, char *wavetype_
                           "w2ss", "w2ds", "w2dd", "w2ex",
                           "w3ss", "w3ds", "w3dd", "w3ex" };
 
-        char title_string[512], subtitle_string[512];
+        char title_string[512];
 
 	char *string_toupper(char *temp);
 
@@ -213,6 +213,14 @@ void plot_compare_grnlib_GMT5( Greens *g1, Greens *g2, int ista, char *wavetype_
 
 	float MoRatio;
 	MoRatio = 1.0E+20 / base_moment;
+
+/***************************************************************************************************************/
+/*** check the GMT version for -B+s"subtitle" compatibility (GMT version 6.2.0+)                             ***/
+/*** https://docs.generic-mapping-tools.org/latest/gmt.html#b-full                                           ***/
+/*** -B[axes][+b][+gfill][+i[val]][+n][+olon/lat][+ssubtitle][+ttitle][+w[pen]][+xfill][+yfill][+zfill]      ***/
+/***************************************************************************************************************/
+	char subtitle_string[512];
+	int check_gmt_version( int mymajor, int myminor );
 
 /*************************/
 /*** begin subroutine ***/
@@ -276,8 +284,9 @@ void plot_compare_grnlib_GMT5( Greens *g1, Greens *g2, int ista, char *wavetype_
 	fprintf( fp, "gmt set MAP_LABEL_OFFSET 10p \n" );
 	fprintf( fp, "gmt set MAP_HEADING_OFFSET 18p \n" );
 
-	/**** subtitle new feature of GMT 6.5 not compatible with GMTv6.1.0 ***/
-	/* fprintf( fp, "gmt set FONT_SUBTITLE              12p,Palatino-Bold,black \n" ); */
+	/**** subtitle new psbasemap -B+s feature of GMT version 6.2+ not compatible with GMT version 6.1 ***/
+	if( check_gmt_version( 6, 2 ) )
+	  fprintf( fp, "gmt set FONT_SUBTITLE              12p,Palatino-Bold,black \n" );
 
         fprintf( fp, "\n" );
 
@@ -360,29 +369,39 @@ void plot_compare_grnlib_GMT5( Greens *g1, Greens *g2, int ista, char *wavetype_
 
 	}
 
-	/*** title ***/
-	sprintf( title_string, "Greens Function Comparisons depth=(%g/%g) filter=%g-%g(Hz)",
-		 g1->evdp, g2->evdp, lf, hf  );
-	fprintf( fp, "gmt psbasemap $R $J -Bxf1a10+l\"seconds\" -Byf1a1 -BN+t\"%s\"  -O -K >> ${PS}\n", title_string );
+	/*** line_color[0] = "red" line_color[1] = "black" ***/
+	/* g1->net, g1->stnm, g1->loc, g2->net, g2->stnm, g2->loc, g1->v.modfile, g2->v.modfile, */
 
-	/*** subtitle ***/
+	/*** title and subtitle strings ***/
+	sprintf( title_string, "Greens Function Comparisons depth=(%g/%g) filter=%g-%g(Hz)", g1->evdp, g2->evdp, lf, hf  );
 	sprintf( subtitle_string, "@;red;%s@;; vs. @;black;%s@;;", glib_filename1, glib_filename2 );
-	fprintf( fp, "gmt pstext $R $J -N -F+f10p,Times-BoldItalic,black+jML -D1.6i/1i -O >> ${PS} << EOF\n" );
-	fprintf( fp, "0 0 %s\n", subtitle_string );
-	fprintf( fp, "EOF\n" );
 
-/*** line_color[0] = "red" line_color[1] = "black" ***/
-/* g1->net, g1->stnm, g1->loc, g2->net, g2->stnm, g2->loc, g1->v.modfile, g2->v.modfile, */
+	/***** subtitles was not compatible with GMT version 6.1, it is a new feature of GMT 6.2+ ****/
+	/***     note this is also the last gmt command in the script so close with -O             ***/
 
-/***** subtitles was not compatible with GMT version 6.1, may be new feature of GMT 6.5+ ****/
-/* sprintf( subtitle_string, "@;red;%s@;; vs. @;black;%s@;;", glib_filename1, glib_filename2 ); */
-/* fprintf( fp, "gmt psbasemap $R $J -Bxf1a10+l\"seconds\" -Byf1a1 -BN+s\"%s\"+t\"%s\"  -O  >> ${PS}\n", subtitle_string, title_string ); */
+	if( check_gmt_version( 6, 2 ) )
+	{
+		fprintf( fp, "gmt psbasemap $R $J -Bxf1a10+l\"seconds\" -Byf1a1 -BN+s\"%s\"+t\"%s\"  -O  >> ${PS}\n", 
+			subtitle_string, title_string );		
+	}
+	else
+	{
+		fprintf( fp, "gmt psbasemap $R $J -Bxf1a10+l\"seconds\" -Byf1a1 -BN+t\"%s\"  -O -K >> ${PS}\n", 
+			title_string );
 
-	
+		/*** subtitle, just add as string, wont be neat or centered ***/
+
+		fprintf( fp, "gmt pstext $R $J -N -F+f10p,Times-BoldItalic,black+jML -D1.6i/1i -O >> ${PS} << EOF\n" );
+		fprintf( fp, "0 0 %s\n", subtitle_string );
+		fprintf( fp, "EOF\n" );
+	}
+
         fprintf( fp, "gmt psconvert -A -Tj -E300 ${PS}\n" );
 
         fprintf( fp, "### cleanup and sys dep plotting\n" );
+	fprintf( fp, "##\n" );
         fprintf( fp, "/bin/rm -f ${PS}\n" );
+
 	if( clean_out_tmp_files ) fprintf( fp, "/bin/rm -f g?.???.*.grns\n" );
 
         fprintf( fp, "# open ${JPG}\n" );

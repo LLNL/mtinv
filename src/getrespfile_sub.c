@@ -104,23 +104,57 @@ void getrespfile( char *pathname, char *sta, char *net, char *loc, char *cmp,
 					{
 						if(verbose)
 						{
-						  printf(
-					     "i=%d ptr=%s cmp=%s filen=%s (next) khole=%s\n",
-						  	i, ptr, cmp, filen[i].fn, khole );
+						  fprintf( stdout, 
+					     "%s: %s: %s: i=%d ptr=%s cmp=%s filen=%s (next) khole=%s\n",
+						  	progname, __FILE__, __func__,
+							i, ptr, cmp, filen[i].fn, khole );
+						  fflush(stdout);				
 						}
 
 						/*** location code - not khole ***/
 						ptr = strtok( NULL, tok );
-						
+
+						/*** debugging ***/
+						if(verbose) 
+						{
+							fprintf( stdout, "%s: %s: %s: ptr=%s\n", 
+								progname, __FILE__, __func__, ptr);
+							fflush(stdout);
+						}
+
+						/*** added new pre-check incase where there is not start or end dates to SAC_PZs files **/
+						/*** this returns a null pointer and is checked seperately with my loc vars ***/
+						/*** g.ichinose Aug 21, 2024 ***/
+						if( ptr == NULL && strcmp( loc, "" ) == 0 ) 
+						{
+							if(verbose)
+							{
+							  fprintf( stdout, "%s: %s: %s: ptr=%s is null loc=(%s)\n", 
+								progname, __FILE__, __func__, ptr, loc );
+							  fflush(stdout);
+							}
+
+							sprintf( respfile, "%s/%s", pathname, filen[i].fn );
+
+							if(verbose)
+							{
+							  fprintf( stdout, "%s: %s: %s: Found respfile=%s\n", progname, __FILE__, __func__, respfile );
+							  fflush(stdout);
+							}
+
+							return;
+						}
+
+						/*** left alone, cleaned up alittle ***/
 						if( strcmp( ptr, loc ) == 0 || strcmp( loc, "" ) == 0 )
 						{
-							sprintf( respfile, "%s/%s", 
-								pathname, filen[i].fn );
+							sprintf( respfile, "%s/%s", pathname, filen[i].fn );
 
 							if( verbose )
 							{
-							  printf("%s: Found respfile=%s\n",
-								progname, respfile );
+							  fprintf( stdout, "%s: %s: %s: Found respfile=%s\n",
+								progname, __FILE__, __func__, respfile );
+							  fflush(stdout);
 							}
 							return;
 						}
