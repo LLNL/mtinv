@@ -21,6 +21,11 @@
 * sets up makeglib.c based on SAC data and now setups runs for hspec96 Greens functions 
 ***/
 
+/*** Thu Sep 19 13:51:27 PDT 2024 ichinose 
+* critical security bugfix from codeQL scanning in GitHub 
+* replaced system call to list directory with a builtin function 
+***/
+
 /***
 *
 * Mon Aug  3 15:40:26 PDT 2020 ichinose
@@ -50,6 +55,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <dirent.h>
 
 /*** for VelMod structure ***/
 /*** also for mt_version.h and sac.h ***/
@@ -196,6 +202,9 @@ int main( int ac, char **av )
 	float get_cmdline_float( int i, char *arg, char **av, char *argname );
 	int get_cmdline_integer( int i, char *arg, char **av, char *argname );
 	long get_cmdline_long( int i, char *arg, char **av, char *argname );
+
+/*** get a directory listing of files with .mod extension ***/
+	int list_directory_files_with_extension( char *directory_name, char *filename_extension_with_leading_dot );
 
 /********************************************************************************/
 /*********** start progname *******************************************/
@@ -626,7 +635,19 @@ int main( int ac, char **av )
 	
 		if( ( mtinv_path = getenv( "MTINV_PATH" )) != NULL )
 		{
-			sprintf( cmdline, "ls %s/data/modeldb/*.mod", mtinv_path );
+			sprintf( model_file_path, "%s/data/modeldb", mtinv_path );
+			list_directory_files_with_extension( model_file_path, ".mod" );
+			exit(-1);
+		}
+		else
+		{
+		     /*** environmental variable MTINV_PATH not set, using wus.mod as last ditch effort ***/
+			strcpy( model_name, "wus" );
+		}
+/***
+		if( ( mtinv_path = getenv( "MTINV_PATH" )) != NULL )
+		{
+			sprintf( cmdline, "ls %s/data/modeldb / *.mod", mtinv_path );
 			printf( "%s\n", cmdline );
 			system( cmdline );
 			exit(-1);
@@ -635,6 +656,8 @@ int main( int ac, char **av )
 		{
 			strcpy( model_name, "wus" );
 		}
+***/
+
 	}
 	fprintf( stderr, "%s: %s: %s: velocity model %s\n", progname, __FILE__, __func__, model_name );
 
@@ -2318,3 +2341,29 @@ void hspec96_to_grnlib_script(
 	}
 	fclose(fp);
 }
+
+int list_directory_files_with_extension( char *directory_name, char *filename_extension_with_leading_dot )
+{
+        int i, nfiles;
+        struct dirent **namelist;
+        const char *ext;
+        char filename[1024];
+
+        nfiles = scandir( directory_name, &namelist, NULL, alphasort );
+
+        fprintf( stdout, "%s: %s: %s: directory = %s\n", 
+		progname, __FILE__, __func__, directory_name  );
+
+        for ( i = 0; i < nfiles; i++ )
+        {
+                strcpy( filename, namelist[i]->d_name );
+                if( namelist[i]->d_type == DT_REG )
+                {
+                        ext = strrchr( filename, '.' );
+                        if( strcmp( ext, filename_extension_with_leading_dot ) == 0 )
+                                printf( "%s\n", filename );
+                }
+        }
+        return 0;
+}
+
