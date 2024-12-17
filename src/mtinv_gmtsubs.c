@@ -19,6 +19,7 @@
 /*** updates ***/
 /** mtinv_gmtsubs.c._from_jorge_2020March_ ***/
 /** psmeca was fixed in version GMTv5 -Sz for devmt and -Sm for fullmt **/
+/** changed freq band labels in gmtwf.csh from %04.2f to %g ****/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -1929,9 +1930,15 @@ void wfplot2_gmt4( EventInfo *ev, Solution *sol, Greens **grn, int nsta, int iz,
                 {
                  fprintf( fp, "pstext -R0/1/0/1 -JX1i/1i -D0i/0i -N -O -K  >> %s << EOF\n", PS_outputfilename );
                  if( ev[ista].iused == 1 )
-                  fprintf( fp, "1.5 0.05 8 0 1 0 Invert %4.2f_%04.2fHz\n", ev[ista].lf, ev[ista].hf );
+                 {
+                  /* fprintf( fp, "1.5 0.05 8 0 1 0 Invert %4.2f_%04.2fHz\n", ev[ista].lf, ev[ista].hf ); */
+                     fprintf( fp, "1.5 0.05 8 0 1 0 Invert %g_%gHz\n",        ev[ista].lf, ev[ista].hf );
+                 }
                  else if( ev[ista].iused == 0 )
-                  fprintf( fp, "1.5 0.05 8 0 1 0 Predict %4.2f_%04.2fHz\n", ev[ista].lf, ev[ista].hf );
+                 {
+                  /* fprintf( fp, "1.5 0.05 8 0 1 0 Predict %4.2f_%04.2fHz\n", ev[ista].lf, ev[ista].hf ); */
+                     fprintf( fp, "1.5 0.05 8 0 1 0 Predict %g_%gHz\n",        ev[ista].lf, ev[ista].hf );
+                 }
                  fprintf( fp, "EOF\n" );
                  fprintf( fp, "\n" );
                 }
@@ -2482,9 +2489,15 @@ void wfplot2_gmt5( EventInfo *ev, Solution *sol, Greens **grn, int nsta, int iz,
 		 fprintf( fp, "gmt pstext -R0/1/0/1 -JX1i/1i -D0i/0i -N -F+jML+f8p,Times-Bold,black -O -K -Vq >> %s << EOF\n", PS_outputfilename );
 
 		 if( ev[ista].iused == 1 )
-		  fprintf( fp, "1.5 0.05 Invert %4.2f_%04.2fHz\n", ev[ista].lf, ev[ista].hf );
-		 else if( ev[ista].iused == 0 )
-		  fprintf( fp, "1.5 0.05 Predict %4.2f_%04.2fHz\n", ev[ista].lf, ev[ista].hf );
+                 {
+		  /* fprintf( fp, "1.5 0.05 Invert %4.2f_%04.2fHz\n", ev[ista].lf, ev[ista].hf ); */
+		     fprintf( fp, "1.5 0.05 Invert %g_%gHz\n",        ev[ista].lf, ev[ista].hf );
+		 }
+		 else if( ev[ista].iused == 0 )	
+		 {
+		  /* fprintf( fp, "1.5 0.05 Predict %4.2f_%04.2fHz\n", ev[ista].lf, ev[ista].hf ); */
+		     fprintf( fp, "1.5 0.05 Predict %g_%gHz\n",        ev[ista].lf, ev[ista].hf );
+		 }
 
 		 fprintf( fp, "EOF\n" );
 		 fprintf( fp, "\n" );
